@@ -17,8 +17,6 @@ gender = [
 #     BirthDate = models.DateField()
 
 class FeedbackModel(models.Model):
-
-    FeedbackId = models.IntegerField()
     firstName = models.CharField(max_length=20)
     lastName = models.CharField(max_length=20)
     Email = models.EmailField(max_length=50)
@@ -27,7 +25,6 @@ class FeedbackModel(models.Model):
 
 class StaffModel(models.Model):
 
-    Staff_ID = models.IntegerField()
     firstName = models.CharField(max_length=20)
     lastName = models.CharField(max_length=20)
     Email = models.EmailField(max_length=50)

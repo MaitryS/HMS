@@ -10,7 +10,6 @@ def index(request):
 def Feedback(request):
     if request.method=="POST":
         post= FeedbackModel()
-        post.FeedbackId=request.POST['FeedbackId']
         post.firstName=request.POST['firstName']
         post.lastName=request.POST['lastName']
         post.Email=request.POST['Email']
@@ -26,7 +25,6 @@ def Feedback(request):
 def Staff(request):
     if request.method=="POST":
         post= StaffModel(request.POST)
-        post.Staff_ID =request.POST['Staff_ID']
         post.firstName=request.POST['firstName']
         post.lastName=request.POST['lastName']
         post.Email=request.POST['Email']
