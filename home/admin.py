@@ -5,6 +5,6 @@ from .models import *
 
 admin.site.register(FeedbackModel)
 admin.site.register(StaffModel)
-admin.site.register(UsersModel)
-admin.site.register(RoomModel)
-admin.site.register(RoomTypeModel)
+# admin.site.register(UsersModel)
+# admin.site.register(RoomModel)
+# admin.site.register(RoomTypeModel)

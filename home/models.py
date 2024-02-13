@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+# from django.contrib.auth.models import AbstractUser
 from django.db import models
 # Create your models here.
 
@@ -7,25 +7,25 @@ gender = [
     ('Female' , 'female')
 ]
  
-class UsersModel(AbstractUser):
-    ContactNo = models.CharField(max_length=10 , unique = True)
-    Address = models.CharField(max_length = 250)
-    State = models.CharField(max_length = 50)
-    Country = models.CharField(max_length = 50)
-    Gender = models.CharField(choices= gender , max_length = 6)
-    BirthDate = models.DateField()
+# class UsersModel(AbstractUser):
+#     ContactNo = models.CharField(max_length=10 , unique = True)
+#     Address = models.CharField(max_length = 250)
+#     State = models.CharField(max_length = 50)
+#     Country = models.CharField(max_length = 50)
+#     Gender = models.CharField(choices= gender , max_length = 6)
+#     BirthDate = models.DateField()
 
 
-class RoomTypeModel(models.Model):
-    Room = models.CharField(max_length = 20)
-    Description = models.CharField(max_length=250)
-    Price = models.DecimalField(max_digits=6 , decimal_places = 2)
+# class RoomTypeModel(models.Model):
+#     Room = models.CharField(max_length = 20)
+#     Description = models.CharField(max_length=250)
+#     Price = models.DecimalField(max_digits=6 , decimal_places = 2)
 
 
-class RoomModel(models.Model):
-    Users = models.OneToOneField(UsersModel , on_delete= models.CASCADE )
-    RoomType = models.OneToOneField(RoomTypeModel , on_delete= models.CASCADE)
-    Amenities = models.CharField(max_length=260)
+# class RoomModel(models.Model):
+#     Users = models.OneToOneField(UsersModel , on_delete= models.CASCADE )
+#     RoomType = models.OneToOneField(RoomTypeModel , on_delete= models.CASCADE)
+#     Amenities = models.CharField(max_length=260)
      
 
 class FeedbackModel(models.Model):
@@ -39,11 +39,11 @@ class FeedbackModel(models.Model):
 
 
 class StaffModel(models.Model):
-
+    id = models.AutoField(primary_key= True)
     firstName = models.CharField(max_length=20)
     lastName = models.CharField(max_length=20)
     Email = models.EmailField(max_length=50)
-    # Image = models.ImageField(upload_to= "images/Staff" , default="")
+    Image = models.ImageField(upload_to= 'img' , null = True)
     Phone = models.CharField(max_length=100 , unique = True)
     Address = models.CharField(max_length=100)
     DOB = models.DateTimeField(null=True)  # Format: 2024-02-11

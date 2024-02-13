@@ -25,8 +25,8 @@ urlpatterns = [
     path('', include('home.urls')),
     path('Feedback', views.Feedback , name ='Feedback'),
     path('Staff', views.Staff , name ='Staff'),
-    path('Registration', views.Users , name ='Registration'),
-    path('Room', views.Room , name ='Room'),
-    path('RoomType', views.RoomType , name ='RoomType'),
+    # path('Registration', views.Users , name ='Registration'),
+    # path('Room', views.Room , name ='Room'),
+    # path('RoomType', views.RoomType , name ='RoomType'),
 
 ] + static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
