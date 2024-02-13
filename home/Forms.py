@@ -11,20 +11,20 @@ class StaffForm(forms.ModelForm):
         model = StaffModel
         fields = "__all__"
 
-
-# class UsersForm(forms.ModelForm):
-#     class Meta:
-#         model = UsersModel
-#         fields = "__all__"
-
-
-# class RoomForm(forms.ModelForm):
-#     class Meta:
-#         model = RoomModel
-#         fields = "__all__"
+class UsersForm(forms.ModelForm):
+    class Meta:
+        model = UsersModel
+        fields = "__all__"
 
 
-# class RoomTypeForm(forms.ModelForm):
-#     class Meta:
-#         model = RoomTypeModel
-#         fields = "__all__"
+class RoomTypeForm(forms.ModelForm):
+    class Meta:
+        model = RoomTypeModel
+        fields = "__all__"
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = RoomModel
+        fields = "__all__"
+
+

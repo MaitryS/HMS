@@ -19,7 +19,7 @@
           <h1>Staff:</h1>
           <hr class="mt-0 mb-4" />
           {% block content %}
-            <form method="post" action="" enctype="multipart/form-data" id="create-form">
+            <form method="post" action="" enctype="multipart/form-data" id="create-form" class="form-control">
               {% csrf_token %} 
               {{form | crispy }}
               <button type="submit" class="btn btn-primary">Submit</button>
