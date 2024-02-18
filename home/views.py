@@ -1,28 +1,48 @@
 from django.shortcuts import render
 from .Forms import  *
 from .models import *
+from django.views.generic import CreateView
 # Create your views here.
 
-def index(request):
+def home(request):
+    return render(request , "index.html")
+
+def About(request):
+    return render(request , "About.html")
+
+def Contact(request):
+    return render(request , "Contact.html")
+
+def Services(request):
+    return render(request , "Services.html")
+
+def Login(request):
+    return render(request , "Login.html")
+
+def Logout(request):
     return render(request , "index.html")
 
 
-# def Users(request):
-#     if request.method=="POST":
-#         post= UsersModel()
-#         post.ContactNo=request.POST['ContactNo']
-#         post.Address=request.POST['Address']
-#         post.State=request.POST['State']
-#         post.Country=request.POST['Country']
-#         post.Gender=request.POST['Gender']
-#         post.BirthDate=request.POST['BirthDate']
-#         post.save()
-#         context = {'form': UsersForm()}
-#         return render(request , "Registration.html" , context)
-#     else:
-#         # If it's a GET request or any other method, render the form
-#         context = {'form': UsersForm()}
-#         return render(request, "Registration.html", context)
+def Users(request):
+    # if request.method=="POST":
+        # post= UsersModel()
+        # post.Gender=request.POST['Gender']
+        # post.ContactNo=request.POST['ContactNo']
+        # post.BirthDate=request.POST['BirthDate']
+        # post.Address=request.POST['Address']
+        # post.Country=request.POST['Country']
+        # post.save()
+    context = {'form': UserSignUpForm()}
+    return render(request , "Registration.html" , context )
+    # else:
+    #     # If it's a GET request or any other method, render the form
+    #     context = {'form': UserSignUpForm()}
+    #     return render(request, "Registration.html", context)
+
+class register(CreateView):
+    model = UsersModel
+    form_class = UserSignUpForm
+    template_name = 'Registration.html'
 
 
 def Feedback(request):

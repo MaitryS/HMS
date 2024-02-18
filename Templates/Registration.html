@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load crispy_forms_filters %}
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+  <link rel="stylesheet" href="static\css\register.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-7">
+      <h2> User Registration:</h2>
+      <hr class="mt-0 mb-4" />
+        <form method="post" enctype="multipart/form-data" action="{% url "Login" %}">
+          {% csrf_token %}
+          {% comment %} {{form | crispy }} {% endcomment %}
+          <div class="row mt-2 form-group">
+            <div
+              class="col-md-6 mb-3 mb-md-0">
+              {{ form.first_name|as_crispy_field }}
+            </div>
+            <div
+              class="col-md-6">
+              {{ form.last_name|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row mt-2 form-group">
+            <div class="col-md-6 mb-3 mb-md-0">
+              {{ form.email|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+              {{ form.ContactNo|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row mt-2 form-group">
+            <div class="col-md-6 mb-3 mb-md-0">
+              {{ form.Gender|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+              {{ form.BirthDate|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row mt-2 form-group">
+            <div class="col-md-6 mb-3 mb-md-0">
+              {{ form.Address|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+              {{ form.Country|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row mt-2 form-group">
+            <div class="col-md-6 mb-3 mb-md-0">
+              {{ form.username|as_crispy_field }}
+            </div>
+            <div class="col-md-6 mb-3 mb-md-0">
+              {{ form.password1|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row mt-2 form-group">
+            <div class="col-md-6 mb-3 mb-md-0">
+              {{ form.password2|as_crispy_field }}
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  {% endblock content %}

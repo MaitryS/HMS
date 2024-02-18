@@ -2,17 +2,12 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 # Create your models here.
 
- 
 class UsersModel(AbstractUser):
-#     ContactNo = models.CharField(max_length=10 , unique = True)
-#     Address = models.CharField(max_length = 250)
-#     State = models.CharField(max_length = 50)
-#     Country = models.CharField(max_length = 50)
-    Gender = models.CharField(choices= (
-            ('M' , 'Male'),
-            ('F' , 'Female'),
-        ) , max_length = 1 , default = "")
-#     BirthDate = models.DateField()
+    ContactNo = models.CharField(max_length=10 , unique = True ,null = True)
+    Address = models.CharField(max_length = 250 , null = True)
+    Country = models.CharField(max_length = 50 , null = True)
+    Gender = models.CharField( max_length = 10, default = "")
+    BirthDate = models.DateField(null = True)
 
 
 # class RoomTypeModel(models.Model):
