@@ -1,72 +1,79 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm ,UserChangeForm
+from django.contrib.auth.models import User
 from django.db import transaction
 from .models import *
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-class FeedbackForm(forms.ModelForm):
-    class Meta:
-        model = FeedbackModel
-        fields = "__all__"
 
-class StaffForm(forms.ModelForm):
-    DOB = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
-    Startdate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
-    Enddate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
-    class Meta:
-        model = StaffModel
-        fields = "__all__"
+
+Gender_choices = [('1','Male'),('2','Female')]
 
 class UserSignUpForm(UserCreationForm):
-    first_name = forms.CharField(required= True)
-    last_name = forms.CharField(required= True)
+    first_name=forms.CharField(required=True)
+    last_name=forms.CharField(required=True)
     email = forms.EmailField(required= True)
-    Gender = forms.CharField(max_length=10 ,required= True)
-    ContactNo = forms.CharField(required= True)
-    BirthDate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}),required= True)
-    Address = forms.CharField(required= True)
-    Country = forms.CharField(required= True)
-    username = forms.CharField(required= True)
-    # password = forms.CharField(required= True)
+    gender=forms.ChoiceField(choices=Gender_choices,widget=forms.RadioSelect())
+    contactno = forms.CharField(required= True)
     class Meta(UserCreationForm.Meta):
-        model = UsersModel
-        fields = ('first_name' , 'last_name','email' ,'Gender' ,'ContactNo','BirthDate','Address' ,'Country',
+        model = User
+        fields = ('first_name' , 'last_name','email' ,'gender' ,'contactno',
                   'username',)
 
     @transaction.atomic
     def data_save(self):
-        User = UsersModel.objects.create()
-        User.first_name = self.cleaned_data.get('first_name')  
-        User.last_name = self.cleaned_data.get('last_name')  
-        User.email = self.cleaned_data.get('email')  
-        User.Gender = self.cleaned_data.get('Gender')  
-        User.ContactNo = self.cleaned_data.get('ContactNo')  
-        User.BirthDate = self.cleaned_data.get('BirthDate')  
-        User.Address = self.cleaned_data.get('Address')  
-        User.Country = self.cleaned_data.get('Country')  
-        User.username = self.cleaned_data.get('username')  
-        # User.password = self.cleaned_data.get('password') 
-        User.save()
-        return UsersModel 
+        user =super().save(commit=False)
+        user.first_name = self.cleaned_data.get('first_name')  
+        user.last_name = self.cleaned_data.get('last_name')  
+        user.email = self.cleaned_data.get('email')  
+        user.gender = self.cleaned_data.get('gender')  
+        user.contactno = self.cleaned_data.get('contactno')   
+        user.save()
+        return user 
         
 
 
-# class AdminLoginForm(UserCreationForm):
+class RoomTypeForm(forms.ModelForm):
+    class Meta:
+        model = RoomType
+        fields = "__all__"
 
-#     username = forms.CharField(required= True)
-#     password = forms.CharField(required= True)
-#     class Meta(UserCreationForm.Meta):
-#         model = UsersModel
-        
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = "__all__"
+
+class BookForm(forms.ModelForm):
+    checkin = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    checkout = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    class Meta:
+        model = Book
+        fields = "__all__"
+
+class BillForm(forms.ModelForm):
+    paymentdate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    class Meta:
+        model = Bill
+        fields = "__all__"
 
 
-# class RoomTypeForm(forms.ModelForm):
-#     class Meta:
-#         model = RoomTypeModel
-#         fields = "__all__"
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = "__all__"
 
-# class RoomForm(forms.ModelForm):
-#     class Meta:
-#         model = RoomModel
-#         fields = "__all__"
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = "__all__"
+
+class StaffForm(forms.ModelForm):
+    DOB = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    startdate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    enddate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    class Meta:
+        model = Staff
+        fields = "__all__"
 
 

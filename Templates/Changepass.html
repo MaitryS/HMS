@@ -1,0 +1,39 @@
+{% extends "Base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Reset{% endblock title %}
+{% block content %}
+
+<div class=" pt-70 pb-70 bg-3 bg-opacity-dark-blue-80">
+    <div class="container" style="font-family:'Times New Roman', Times, serif">
+        <div class="row">
+            <div class="col-md-12 text-center"style="z-index: 1;  ">
+                <div class="breadcrumb-text  hvr-float-shadow btn border-3 btn-outline-primary " >
+                    <h1 class="text-center px-5 pt-2 text-white ">Change Your Password</h1>
+                </div>
+            </div>  
+        </div>
+    </div>
+  </div>
+
+    <div class="content-section">
+        <div class="container my-4 animate__animated animate__fadeIn ">
+            <div class="row">
+              <div class="col"></div>
+              <div class=" col-md-6 border-top border-bottom  border-5 rounded-3 border-primary shadow  p-3  !spacing bg-white"><form method="POST">
+            {% csrf_token %}
+          
+                {{ Reset|crispy }}
+                
+            <div class="form-group text-center my-3">
+                <button class="btn btn-outline-primary" type="submit">Change Password</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            {% comment %} <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{% url 'User_register' %}">Sign Up Now</a>
+            </small> {% endcomment %}
+        </div></div>
+        <div class="col"></div>
+    </div>
+    </div>
+{% endblock content %}

@@ -1,17 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render ,redirect
+from django.contrib import messages
 from .Forms import  *
 from .models import *
 from django.views.generic import CreateView
 # Create your views here.
 
-def home(request):
+def Home(request):
     return render(request , "index.html")
 
 def About(request):
     return render(request , "About.html")
-
-def Contact(request):
-    return render(request , "Contact.html")
 
 def Services(request):
     return render(request , "Services.html")
@@ -22,43 +20,55 @@ def Login(request):
 def Logout(request):
     return render(request , "index.html")
 
+def register(request):
+    if request.method == 'POST':
+        form =  UserSignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Welcome! {username} Your account has been created! You are now able to log in')
+            return redirect('Base')
+    else:
+        form =  UserSignUpForm()
+    return render(request, 'Registration.html',{'form': form})
 
-def Users(request):
-    # if request.method=="POST":
-        # post= UsersModel()
-        # post.Gender=request.POST['Gender']
-        # post.ContactNo=request.POST['ContactNo']
-        # post.BirthDate=request.POST['BirthDate']
-        # post.Address=request.POST['Address']
-        # post.Country=request.POST['Country']
-        # post.save()
-    context = {'form': UserSignUpForm()}
-    return render(request , "Registration.html" , context )
-    # else:
-    #     # If it's a GET request or any other method, render the form
-    #     context = {'form': UserSignUpForm()}
-    #     return render(request, "Registration.html", context)
+def Contact(request):
+    if request.method == 'POST':
 
-class register(CreateView):
-    model = UsersModel
-    form_class = UserSignUpForm
-    template_name = 'Registration.html'
+        form = ContactForm(request.POST)
 
+        if form.is_valid():
+
+            instance = form.save(commit = False)
+            instance.save()
+
+            params = {'Contactdata': ContactForm()} 
+            return render(request , "Contact.html" , params)
+    
+    else:
+        form = ContactForm()
+
+    params = {'form': form}
+    return render(request, "Contact.html", params)
 
 def Feedback(request):
-    if request.method=="POST":
-        post= FeedbackModel()
-        post.firstName=request.POST['firstName']
-        post.lastName=request.POST['lastName']
-        post.Email=request.POST['Email']
-        post.Message=request.POST['Message']
-        post.save()
-        context = {'form': FeedbackForm()}
-        return render(request , "Feedback.html" , context)
+    if request.method == 'POST':
+
+        form = FeedbackForm(request.POST)
+
+        if form.is_valid():
+
+            instance = form.save(commit = False)
+            instance.save()
+
+            params = {'Feedbackdata': FeedbackForm()} 
+            return render(request , "Feedback.html" , params)
+    
     else:
-        # If it's a GET request or any other method, render the form
-        context = {'form': FeedbackForm()}
-        return render(request, "Feedback.html", context)
+        form = FeedbackForm()
+
+    params = {'form': form}
+    return render(request, "Feedback.html", params)
 
 def Staff(request):
     if request.method == 'POST':
@@ -80,30 +90,92 @@ def Staff(request):
     return render(request, "Staff.html", params)
 
 
-# def Room(request):
-#     if request.method=="POST":
-#         post= RoomModel()
-#         post.Users=request.POST['Users']
-#         post.RoomType=request.POST['RoomType']
-#         post.Amenities=request.POST['Amenities']
-#         post.save()
-#         context = {'form': RoomForm()}
-#         return render(request , "Room.html" , context)
-#     else:
-#         Value = {'form': RoomForm()}
-#         return render(request, "Room.html", Value)
+def Room(request):
+    if request.method == 'POST':
+
+        form = RoomForm(request.POST)
+
+        if form.is_valid():
+
+            instance = form.save(commit = False)
+            instance.save()
+
+            params = {'RoomData': RoomForm()} 
+            return render(request , "Room.html" , params)
     
+    else:
+        form = RoomForm()
 
+    params = {'form': form}
+    return render(request, "Room.html", params)
+    
+def Base(request):
+        roomname = RoomType.objects.all()
+        description = RoomType.objects.all()
+        price = RoomType.objects.all()
+        amenities = Room.objects.all()
 
-# def RoomType(request):
-#     if request.method=="POST":
-#         post= RoomTypeModel()
-#         post.Room=request.POST['Room']
-#         post.Description=request.POST['Description']
-#         post.Price=request.POST['Price']
-#         post.save()
-#         context = {'form': RoomTypeForm()}
-#         return render(request , "RoomType.html" , context)
-#     else:
-#         context = {'form': RoomTypeForm()}
-#         return render(request, "RoomType.html", context)
+        context = {
+            'roomname':roomname,
+            'description': description,
+            'price': price,
+            'amenities': amenities,
+        }
+        return render(request , "Room.html" , context)
+
+def RoomType(request):
+    if request.method == 'POST':
+
+        form = RoomTypeForm(request.POST)
+
+        if form.is_valid():
+
+            instance = form.save(commit = False)
+            instance.save()
+
+            params = {'RoomTypeData': RoomTypeForm()} 
+            return render(request , "RoomType.html" , params)
+    
+    else:
+        form = RoomTypeForm()
+
+    params = {'form': form}
+    return render(request, "RoomType.html", params)
+
+def Book(request):
+    if request.method == 'POST':
+
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+
+            instance = form.save(commit = False)
+            instance.save()
+
+            params = {'BookData': BookForm()} 
+            return render(request , "Room.html" , params)
+    
+    else:
+        form = BookForm()
+
+    params = {'form': form}
+    return render(request, "Room.html", params)
+
+def Bill(request):
+    if request.method == 'POST':
+
+        form = BillForm(request.POST)
+
+        if form.is_valid():
+
+            instance = form.save(commit = False)
+            instance.save()
+
+            params = {'Billdata': BillForm()} 
+            return render(request , "RoomType.html" , params)
+    
+    else:
+        form = BillForm()
+
+    params = {'form': form}
+    return render(request, "RoomType.html", params)

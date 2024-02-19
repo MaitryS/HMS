@@ -1,0 +1,50 @@
+.card1 {
+  background-image: radial-gradient(
+    circle,
+    #98e78f,
+    #93e9a0,
+    #90ebb0,
+    #90ecbe,
+    #94edcb,
+    #96f0de,
+    #9ff1ed,
+    #aef2f8,
+    #c7f4ff,
+    #e1f5ff,
+    #f4f9ff,
+    #ffffff
+  );
+}
+.klod {
+  font-size: 14px;
+  color: #31b399;
+  font-weight: 600;
+}
+.data {
+  color: #09093d;
+  font-size: 40px;
+  font-weight: 650;
+}
+.about {
+  font-size: 13px;
+  color: #a7a7a7;
+}
+.company {
+  font-weight: 600;
+  font-size: 14px;
+  color: #000;
+}
+.text2 {
+  font-size: 18px;
+  color: #5d605c;
+  font-weight: 600;
+}
+.name {
+  font-size: 14px;
+  font-weight: 500;
+}
+.datasecure {
+  font-size: 16px;
+  font-weight: 500;
+  color: #20ad93;
+}

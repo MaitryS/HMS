@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'home',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -149,4 +150,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 MEDIA_URL = '/media/'
 
-AUTH_USER_MODEL = 'home.UsersModel'
+AUTH_USER_MODEL = 'home.User'
+
+
+LOGIN_REDIRECT_URL = 'Home'
+LOGIN_URL = 'login'    
+LOGIN_REDIRECT_URL = 'Home'
+LOGOUT_URL = 'logout'

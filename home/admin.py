@@ -5,13 +5,16 @@ from django.contrib.auth import get_user_model
 
 # Register your models here.
 
-admin.site.register(FeedbackModel)
-admin.site.register(StaffModel)
+admin.site.register(Feedback)
+admin.site.register(Staff)
+admin.site.register(Contact)
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('first_name' , 'last_name' , 'email' , 'Gender' , 'username' ,)
+    list_display = ('first_name' , 'last_name' , 'email' , 'gender' , 'username' ,)
 
 
-admin.site.register(UsersModel , CustomUserAdmin)
-# admin.site.register(RoomModel)
-# admin.site.register(RoomTypeModel)
+admin.site.register(User , CustomUserAdmin)
+admin.site.register(Room)
+admin.site.register(RoomType)
+admin.site.register(Book)
+admin.site.register(Bill)
