@@ -17,12 +17,16 @@ class RoomType(models.Model):
     description = models.CharField(max_length=250)
     price = models.DecimalField(max_digits=6 , decimal_places = 2)
 
+    def __str__(self):
+        return self.RoomName
 
 
 class Room(models.Model):
     RoomType = models.ForeignKey(RoomType , on_delete= models.CASCADE)
     amenities = models.CharField(max_length=260)
     
+    def __str__(self):
+        return self.RoomType.RoomName
 
 
 
@@ -33,7 +37,8 @@ class Book(models.Model):
     checkout =models.DateTimeField()
     totalprice = models.DecimalField(max_digits=6 , decimal_places=2)
 
-
+    def __str__(self):
+        return self.user.first_name
      
 class Bill(models.Model):
     user = models.ForeignKey(User , on_delete= models.CASCADE)
@@ -42,7 +47,8 @@ class Bill(models.Model):
     paymentdate =models.DateTimeField()
     paymentmethod =models.CharField(max_length=8 ,null = True)
     
-
+    def __str__(self):
+        return self.user.first_name
 
 
 class Contact(models.Model):

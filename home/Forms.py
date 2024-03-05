@@ -14,7 +14,7 @@ class UserSignUpForm(UserCreationForm):
     first_name=forms.CharField(required=True)
     last_name=forms.CharField(required=True)
     email = forms.EmailField(required= True)
-    gender=forms.ChoiceField(choices=Gender_choices,widget=forms.RadioSelect())
+    gender=forms.ChoiceField(choices=Gender_choices,widget=forms.RadioSelect() ,required= True)
     contactno = forms.CharField(required= True)
     class Meta(UserCreationForm.Meta):
         model = User

@@ -25,32 +25,26 @@
               {{ form.email|as_crispy_field }}
             </div>
             <div class="col-md-6">
-              {{ form.ContactNo|as_crispy_field }}
+              {{ form.contactno|as_crispy_field }}
             </div>
           </div>
           <div class="row mt-2 form-group">
             <div class="col-md-6 mb-3 mb-md-0">
-              {{ form.Gender|as_crispy_field }}
+              {{ form.gender|as_crispy_field }}
             </div>
-            <div class="col-md-6">
-              {{ form.BirthDate|as_crispy_field }}
-            </div>
-          </div>
-
-          <div class="row mt-2 form-group">
             <div class="col-md-6 mb-3 mb-md-0">
               {{ form.username|as_crispy_field }}
             </div>
+          </div>
+          <div class="row mt-2 form-group">
             <div class="col-md-6 mb-3 mb-md-0">
               {{ form.password1|as_crispy_field }}
             </div>
-          </div>
-          <div class="row mt-2 form-group">
             <div class="col-md-6 mb-3 mb-md-0">
               {{ form.password2|as_crispy_field }}
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary"><a href = "{% url 'login' %}" style="text-decoration-line: none; color: white;">Submit</a></button>
         </form>
       </div>
     </div>

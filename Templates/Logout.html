@@ -1,7 +1,17 @@
 {% extends "Base.html" %}
 
 {% block content %}
-
+<div class=" pt-70 pb-70 bg-3 bg-opacity-dark-blue-80">
+  <div class="container" style="font-family:'Times New Roman', Times, serif">
+      <div class="row">
+          <div class="col-md-12 text-center"style="z-index: 1;  ">
+              <div class="breadcrumb-text  hvr-float-shadow btn border-3 btn-outline-primary " >
+                  <h1 class="text-center px-5 pt-2 text-white ">You Logged Out Successfully</h1>
+              </div>
+          </div>  
+      </div>
+  </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -15,9 +25,10 @@
             <div class="col-md-12 text-center"style="z-index: 1;  ">
       
                   <a  class=" btn hvr-grow  hvr-float-shadow px-5 pt-2 btn btn-outline-primary" href="{% url 'login' %}">
-                    <h3 class="text-center">Login Again</h3>
+                    <h3 class="text-center   ">Login Again</h3>
                   </a>
            
+            </div>  
             </div>  
         </div>
       

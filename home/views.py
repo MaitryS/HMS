@@ -3,7 +3,21 @@ from django.contrib import messages
 from .Forms import  *
 from .models import *
 from django.views.generic import CreateView
-# Create your views here.
+from django.contrib.auth import authenticate , login , logout
+from django.contrib.auth.decorators import  login_required
+from .decorators  import unauthenticated_user
+# # Create your views here.
+
+
+def Base(request):
+        roomtype_list = RoomType.objects.all()
+        room = Room.objects.all()
+
+        context = {
+                'roomtype_list': roomtype_list,
+                'room': room,
+            }
+        return render(request , "Room.html" , context)
 
 def Home(request):
     return render(request , "index.html")
@@ -14,12 +28,8 @@ def About(request):
 def Services(request):
     return render(request , "Services.html")
 
-def Login(request):
-    return render(request , "Login.html")
 
-def Logout(request):
-    return render(request , "index.html")
-
+@unauthenticated_user
 def register(request):
     if request.method == 'POST':
         form =  UserSignUpForm(request.POST)
@@ -27,10 +37,15 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Welcome! {username} Your account has been created! You are now able to log in')
-            return redirect('Base')
+            return redirect('Home')
     else:
         form =  UserSignUpForm()
     return render(request, 'Registration.html',{'form': form})
+
+@unauthenticated_user
+def Login(request):
+    return render(request , "Login.html")
+
 
 def Contact(request):
     if request.method == 'POST':
@@ -51,6 +66,7 @@ def Contact(request):
     params = {'form': form}
     return render(request, "Contact.html", params)
 
+@login_required
 def Feedback(request):
     if request.method == 'POST':
 
@@ -69,6 +85,8 @@ def Feedback(request):
 
     params = {'form': form}
     return render(request, "Feedback.html", params)
+
+
 
 def Staff(request):
     if request.method == 'POST':
@@ -90,7 +108,7 @@ def Staff(request):
     return render(request, "Staff.html", params)
 
 
-def Room(request):
+def Roomview(request):
     if request.method == 'POST':
 
         form = RoomForm(request.POST)
@@ -109,21 +127,9 @@ def Room(request):
     params = {'form': form}
     return render(request, "Room.html", params)
     
-def Base(request):
-        roomname = RoomType.objects.all()
-        description = RoomType.objects.all()
-        price = RoomType.objects.all()
-        amenities = Room.objects.all()
 
-        context = {
-            'roomname':roomname,
-            'description': description,
-            'price': price,
-            'amenities': amenities,
-        }
-        return render(request , "Room.html" , context)
 
-def RoomType(request):
+def RoomTypeview(request):
     if request.method == 'POST':
 
         form = RoomTypeForm(request.POST)
@@ -142,6 +148,8 @@ def RoomType(request):
     params = {'form': form}
     return render(request, "RoomType.html", params)
 
+
+@login_required
 def Book(request):
     if request.method == 'POST':
 
@@ -161,6 +169,8 @@ def Book(request):
     params = {'form': form}
     return render(request, "Room.html", params)
 
+
+@login_required
 def Bill(request):
     if request.method == 'POST':
 
