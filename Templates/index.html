@@ -1,34 +1,62 @@
 {% extends "base.html" %}
 {% block title %}Own Your Bookings!{% endblock title %}
 {% block content %}
+{% load static %}
 
 <section>
   <img src="static\hotel_images\06.jpg" class="img-fluid" alt="..." />
 </section>
-<section class="book">
-  <div class="container flex">
-    <div class="input grid">
-      <div class="box">
-        <label>Check-in:</label>
-        <input type="date" placeholder="Check-in-Date" />
-      </div>
-      <div class="box">
-        <label>Check-out:</label>
-        <input type="date" placeholder="Check-out-Date" />
-      </div>
-      <div class="box">
-        <label>Adults:</label> <br />
-        <input type="number" placeholder="0" />
-      </div>
-      <div class="box">
-        <label>Children:</label> <br />
-        <input type="number" placeholder="0" />
-      </div>
-    </div>
-    <div class="search">
-      <input type="submit" value="BOOK" />
-    </div>
-  </div>
+
+
+<section class="container">
+  <div class="bg-white-opacity padding-40px-top padding-35px-bottom padding-20px-lr border-radius-3">
+    <form method="post" action="#!">
+        <div class="row align-items-center justify-content-center">
+
+            <div class="col-md-6 col-lg-2">
+                <div class="form-group">
+                    <label>Arrival Date</label>
+                    <input type="text" name="date" placeholder="Date:" data-provide="datepicker">
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-2">
+                <div class="form-group">
+                    <label>Departure Date</label>
+                    <input type="text" name="date" placeholder="Date:" data-provide="datepicker">
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-2">
+                <div class="form-group">
+                <div class="select-option">
+                        <label>Adults</label>
+                        <select>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-2">
+                <div class="form-group">
+                    <div class="select-option">
+                        <label>Children</label>
+                        <select>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 margin-15px-top">
+                <button type="submit" class="butn no-margin-bottom">Check Availability</button>
+            </div>
+        </div>
+    </form>
+</div>
 </section>
 
 <div class="container col-xxl-8 px-4 py-5">
@@ -53,7 +81,7 @@
   </div>
 </div>
 <h1 class="my-4 text-center">Our Gallery</h1>
-<div class="card-group my-4">
+<!-- <div class="card-group my-4">
   <div class="card">
     <img src="static\hotel_images\01.jpg" class="same-size-img card-img-top" alt="..." />
   </div>
@@ -66,8 +94,8 @@
   <div class="card">
     <img src="static\hotel_images\04.jpg" class="same-size-img card-img-top" alt="..." />
   </div>
-</div>
-<div class="card-group my-4">
+</div> -->
+<!-- <div class="card-group my-4">
   <div class="card">
     <img src="static\hotel_images\01.jpg" class="same-size-img card-img-top" alt="..." />
   </div>
@@ -80,8 +108,23 @@
   <div class="card">
     <img src="static\hotel_images\04.jpg" class="same-size-img card-img-top" alt="..." />
   </div>
+</div> -->
+{% for room_instance in room  %}
+
+ <div class="card" style="width: 18rem;">
+  <img src="{{ room_instance.roomimage.url }}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ room_instance.RoomType.RoomName }}</h5>
+    <p class="card-text">{{ room_instance.RoomType.description }}</p>
+    <p class="card-text">{{ room_instance.roomsize }}</p>
+    <p class="card-text"> {{ room_instance.amenities }}</p>
+    <a href="#" class="btn btn-primary">{{ room_instance.RoomType.price }}</a>
+  </div>
 </div>
-<div class="card-group my-4">
+{% endfor %}
+
+
+<!-- <div class="card-group my-4">
   <div class="card">
     <img src="static\hotel_images\01.jpg" class="same-size-img card-img-top" alt="..." />
   </div>
@@ -94,6 +137,6 @@
   <div class="card">
     <img src="static\hotel_images\04.jpg" class="same-size-img card-img-top" alt="..." />
   </div>
-</div>
+</div> -->
 
 {% endblock content %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render ,redirect
 from django.contrib import messages
 from .Forms import  *
-from .models import *
+from .models import Room,RoomType
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import  login_required
@@ -9,24 +9,14 @@ from .decorators  import unauthenticated_user
 # # Create your views here.
 
 
-def Base(request):
-        roomtype_list = RoomType.objects.all()
-        room = Room.objects.all()
-
-        context = {
-                'roomtype_list': roomtype_list,
-                'room': room,
-            }
-        return render(request , "Room.html" , context)
-
 def Home(request):
-    return render(request , "index.html")
+    tr=RoomType.objects.all()
+    room = Room.objects.all()
+    context = {'room': room,}
+    return render(request , "index.html",context)
 
 def About(request):
     return render(request , "About.html")
-
-def Services(request):
-    return render(request , "Services.html")
 
 
 @unauthenticated_user
@@ -109,25 +99,12 @@ def Staff(request):
 
 
 def Roomview(request):
-    if request.method == 'POST':
+    room_types = RoomType.objects.all()
+    rooms = Room.objects.all()
+    context = {'room_types': room_types, 'rooms': rooms}
+    return render(request, "Room.html   ", context)
 
-        form = RoomForm(request.POST)
-
-        if form.is_valid():
-
-            instance = form.save(commit = False)
-            instance.save()
-
-            params = {'RoomData': RoomForm()} 
-            return render(request , "Room.html" , params)
     
-    else:
-        form = RoomForm()
-
-    params = {'form': form}
-    return render(request, "Room.html", params)
-    
-
 
 def RoomTypeview(request):
     if request.method == 'POST':

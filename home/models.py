@@ -14,7 +14,7 @@ class User(AbstractUser):
 
 class RoomType(models.Model):
     RoomName = models.CharField(max_length = 20)
-    description = models.CharField(max_length=250)
+    description = models.TextField(max_length=250)
     price = models.DecimalField(max_digits=6 , decimal_places = 2)
 
     def __str__(self):
@@ -23,7 +23,10 @@ class RoomType(models.Model):
 
 class Room(models.Model):
     RoomType = models.ForeignKey(RoomType , on_delete= models.CASCADE)
-    amenities = models.CharField(max_length=260)
+    roomimage = models.ImageField(upload_to= 'img' , null = True)
+    roomsize = models.CharField(max_length = 20 , null = True)
+    meals = models.CharField(max_length= 40 ,null = True)
+    amenities = models.TextField(max_length=260)
     
     def __str__(self):
         return self.RoomType.RoomName
@@ -55,7 +58,8 @@ class Contact(models.Model):
     firstName = models.CharField(max_length=20)
     lastName = models.CharField(max_length=20)
     email = models.EmailField(max_length=50)
-    message = models.CharField(max_length=255)
+    subject = models.CharField(max_length=20 , null = True)
+    message = models.TextField(max_length=255)
 
     def __str__(self):
         return self.firstName
@@ -83,7 +87,7 @@ class Feedback(models.Model):
     firstName = models.CharField(max_length=20)
     lastName = models.CharField(max_length=20)
     email = models.EmailField(max_length=50)
-    message = models.CharField(max_length=255)
+    message = models.TextField(max_length=255)
 
     def __str__(self):
         return self.firstName

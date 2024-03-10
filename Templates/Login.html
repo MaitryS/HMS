@@ -1,56 +1,45 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+<head>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<div class="d-flex align-items-center position-relative min-vh-100">
 
-<div class="bg-light py-3 py-md-5">
-  <div class="container">
-    <div class="row justify-content-md-center">
-      <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
-        <div class="bg-white p-4 p-md-5 rounded shadow-sm">
-          <div class="row">
-            <div class="col-12">
-              <div class="mb-5">
-                <h3 class="text-center"> </h3>
-              </div>
-            </div>
-          </div>
-          <form action="#!">
-            <div class="row gy-3 gy-md-4 overflow-hidden">
-              <div class="col-12">
-                <label for="Username" class="form-label">Username <span class="text-danger">*</span></label>
-                <input type="username" class="form-control" name="email" id="email" placeholder="username" required>
-              </div>
-              <div class="col-12">
-                <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                <input type="password" class="form-control" name="password" id="password" placeholder="password" value="" required>
-              </div>
-              <div class="col-12">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" name="remember_me" id="remember_me">
-                  <label class="form-check-label text-secondary" for="remember_me">
-                    Remember me
-                  </label>
+    <!-- start left content -->
+    <div class="col-sm-8 center-col col-md-7 col-xl-3 d-lg-flex align-items-center px-5">
+
+        <div class="w-100 px-2 padding-50px-all sm-padding-30px-all xs-padding-20px-all   ">
+            <h3 class="text-center">Login</h3>
+             
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ form|crispy }}
+                <small class="text-muted float-end">
+                    <a class="ml-2 nav-link " href="{% url 'reset_password' %}">Forgot Password? </a>
+                </small> <br>
+                <div class="form-group  text-center my-3">
+                    <button class="btn butn px-5 hvr-grow   " type="submit">Login</button>
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="d-grid">
-                  <button class="btn btn-lg btn-primary" type="submit"><a href= " {% url 'Home' %} " class="text-decoration-none" style="color: white;" >Log in</a></button>
+            </form>
+                <div class="col-md-12 text-center margin-25px-top">
+                    <span>Don't have an account yet? <a href="{% url "Registration" %}">Register</a></span>
                 </div>
-              </div>
-            </div>
-          </form>
-          <div class="row">
-            <div class="col-12">
-              <hr class="mt-5 mb-4 border-secondary-subtle">
-              <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
-                <a href="{% url 'Registration' %}" class="link-secondary text-decoration-none">Create new account</a>
-                <a href="" class="link-secondary text-decoration-none">Forgot password</a>
-              </div>
-            </div>
-          </div>
+
+            </form>
         </div>
-      </div>
+
     </div>
-  </div>
+    <!-- end left content -->
+
+    <!-- start right content -->
+    <div class="container-fluid bg-img height-100vh xs-display-none" data-background="img/content/login-register.jpg"
+    style="background-image: url('/static/hotel_images/04.jpg');background-size: cover; ">
+    </div>
+    <!-- end right content -->
+
 </div>
+<!-- end login section -->
+
 {% endblock content %}

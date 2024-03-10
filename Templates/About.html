@@ -1,74 +1,89 @@
 {% extends "base.html" %}
-{% block title %}About{% endblock title %}
 {% block content %}
+{% load crispy_forms_filters %}
+        <!-- start page title section -->
+        <section class="page-title-section bg-img cover-background mb-4 " data-overlay-dark="4" 
+        data-background="static\hotel_images\08.jpg"
+         style="background-image: url('/static/hotel_images/04.jpg');background-size: cover; "
+            <div class="container text-dark">
+                <h1 class=" text-dark" style="font-size: 70px;" >About Us</h1>
+                <ul>
+                    <li>
+                        <a href="index.html" class="text-dark">Home</a>
+                    </li>
+                    <span>></span>
+                    <li>
+                        <a href="#!" class="text-dark">About Us</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- end page title section -->
 
-<div class="container-fluid" style="background-color: #f2feff;">
-<div class="b-example-divider"></div>
-<div class="container col-xxl-8 px-4 py-5 ">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div class="col-lg-6">
-            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-                Welcome to The ARC!
-            </h1>
-            <p class="lead">
-                At The ARC, we're passionate about revolutionizing the hospitality industry through innovative
-                technology solutions. Our team is dedicated to providing hoteliers with powerful tools to streamline 
-                operations,enhance guest experiences, and drive business success.
-            </p>
+        <!-- start about section -->
+        <section class="no-padding-bottom my-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="padding-30px-right sm-no-padding-right">
+                            <h2 class="text-right sm-text-left font-size38 sm-font-size34 xs-font-size28 no-margin-bottom sm-margin-20px-bottom">Our hotel has been award for over 20 years. We build the best for all our clients.</h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 sm-margin-20px-bottom">
+                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when.</p>
+                        <p class="no-margin-bottom">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default.</p>
+                    </div>
+                    <div class="col-lg-3">
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered.</p>
+                        <p class="no-margin-bottom">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end about section -->
+
+  <!-- start services section -->
+  <section style="margin-top: 40px;">
+    <div class="container lg-container my-5">
+        <div class="text-center margin-70px-bottom xs-margin-30px-bottom">
+            <h2 class="margin-10px-bottom">Hotel Services</h2>
+            <p class="no-margin-bottom">We pride ourselves on offering a comprehensive range
+                of services tailored to meet the diverse needs of hotel owners, 
+                managers, and guests</p>
         </div>
-        <div class="col-10 col-sm-8 col-lg-6">
-            <img src="static\hotel_images\about.jpg"
-                class="d-block mx-lg-auto img-fluid" alt="The ARC" width="700" height="500" loading="lazy" />
-        </div>
-    </div>
-</div>
-<div class="b-example-divider"></div>
-<div class="container col-xxl-8 px-4 py-5 ">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div class="col-10 col-sm-8 col-lg-6">
-            <img src="https://images.unsplash.com/photo-1524234599372-a5bd0194758d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTF8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D"
-                class="d-block mx-lg-auto img-fluid" alt="The ARC" width="700" height="500" loading="lazy" />
-        </div>
-        <div class="col-lg-6">
-            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-                The ARC:
-            </h1>
-            <p class="lead">
-                With years of experience in both hospitality and technology, our founders recognized the need 
-                for a comprehensive and user-friendly hotel management system. Thus, The ARC was born, with 
-                the mission to empower hoteliers with cutting-edge solutions tailored to their unique needs.
-        </div>
-    </div>
-</div>
-<div class="b-example-divider"></div>
-<div class="container col-xxl-8 px-4 py-5 ">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div class="col-lg-6">
-            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-                Our Commitment:
-            </h1>
-            <p class="lead">
-                <pre style="font-family: 'sans-serif'; font-size: medium;">
-                    1. <b>Customer-Centric Approach:</b> We prioritize our clients'
-                        needs and feedback,continuously refining and improving our
-                        products to exceed expectations.
-                    2.<b> Innovation:</b> We stay ahead of the curve by leveraging
-                        the latest technologies and industry trends to deliver 
-                        state-of-the-art solutions.
-                    3. <b>User-Friendly Interface:</b>We understand the importance
-                        of simplicity and efficiency. That's why our intuitive 
-                        interface makes managing your hotel effortless.
-                    4. <b>24/7 Support:</b> Our dedicated support team is always
-                        available to assist you, whether you have questions, 
-                        encounter technical issues,or need guidance.
-                </pre>
-            </p>
-        </div>
-        <div class="col-10 col-sm-8 col-lg-6">
-            <img src="static\hotel_images\about3.jpg"
-                class="d-block mx-lg-auto img-fluid" alt="The ARC" width="700" height="500" loading="lazy" />
+        <div class="row">
+            <div class="col-md-6 col-xl-3 md-margin-30px-bottom" >
+                <div class="bg-white border shadow padding-40px-all h-100"  style="padding: 40px;" >
+                    <span class="margin-20px-bottom font-size40 text-theme-color display-inline-block"><i class="ti-ticket"></i></span>
+                    <h3 class="font-size20 margin-20px-bottom sm-margin-10px-bottom">24-hour reception</h3>
+                    <p class="no-margin-bottom">Our hotel offers round-the-clock reception services, ensuring that there's always someone available to assist you regardless of the time of day or night for any of your queries.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 md-margin-30px-bottom">
+                <div class="bg-white border shadow padding-40px-all h-100" style="padding: 40px;">
+                    <span class="margin-20px-bottom font-size40 text-theme-color display-inline-block"><i class="ti-eraser"></i></span>
+                    <h3 class="font-size20 margin-20px-bottom sm-margin-10px-bottom">Room service</h3>
+                    <p class="no-margin-bottom">Your delicious meals, refreshing beverages, and essential amenities delivered straight to your room with our prompt and efficient room service.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 xs-margin-30px-bottom">
+                <div class="bg-white border  shadow padding-40px-all h-100"  style="padding: 40px;">
+                    <span class="margin-20px-bottom font-size40 text-theme-color display-inline-block"><i class="ti-bookmark"></i></span>
+                    <h3 class="font-size20 margin-20px-bottom sm-margin-10px-bottom">Airport pick up</h3>
+                    <p class="no-margin-bottom">Our hotel, ensuring a seamless transition from the airport to your accommodations. Sit back, relax, and let us take care of the transportation logistics for you.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div class="bg-white border shadow padding-40px-all h-100"  style="padding: 40px;">
+                    <span class="margin-20px-bottom font-size40 text-theme-color display-inline-block"><i class="ti-file"></i></span>
+                    <h3 class="font-size20 margin-20px-bottom sm-margin-10px-bottom">Free wifi</h3>
+                    <p class="no-margin-bottom">Stay connected throughout your stay with complimentary high-speed WiFi access available in all areas of our hotel.Enjoy uninterrupted connectivity!</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
+</section>
+<!-- end services section -->
+
+
 {% endblock content %}

@@ -39,7 +39,10 @@ class RoomTypeForm(forms.ModelForm):
         model = RoomType
         fields = "__all__"
 
+meals_choices = [('1', 'no meals') , ('2' , 'breakfast') , ('3', 'breakfast with lunch'), ('4','breakfast with lunch and dinner')]
+
 class RoomForm(forms.ModelForm):
+    meals=forms.ChoiceField(choices=meals_choices,widget=forms.RadioSelect() ,required= True)
     class Meta:
         model = Room
         fields = "__all__"

@@ -1,44 +1,32 @@
 {% extends "Base.html" %}
 
 {% block content %}
-<div class=" pt-70 pb-70 bg-3 bg-opacity-dark-blue-80">
-  <div class="container" style="font-family:'Times New Roman', Times, serif">
-      <div class="row">
-          <div class="col-md-12 text-center"style="z-index: 1;  ">
-              <div class="breadcrumb-text  hvr-float-shadow btn border-3 btn-outline-primary " >
-                  <h1 class="text-center px-5 pt-2 text-white ">You Logged Out Successfully</h1>
-              </div>
-          </div>  
-      </div>
-  </div>
+
+<head>
+  <link rel="stylesheet" href="/static/css/Logout.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<div class=content>
+  <div class="wrapper-1">
+    <div class="wrapper-2">
+      <h1>Thank you !</h1>
+      <p>Please visit The Arc Again</p>
+      <p> </p>
+      <a class="nav-link go-home" href="{% url 'Home' %}">
+      go home
+      </a>
+    </div>
+    <div class="footer-like">
+      <p>We Hope your stay was Fabulous
+      </p>
+    </div>
+</div>
 </div>
 
-<div class="container">
-    <div class="row">
-      <div class="col-md-3">
-    
-      </div>
-      <div class="col-md-6  my-5">
-      
-        <div class="border-top pt-3">
-          <div class="row">
-            <div class="col-md-12 text-center"style="z-index: 1;  ">
-      
-                  <a  class=" btn hvr-grow  hvr-float-shadow px-5 pt-2 btn btn-outline-primary" href="{% url 'login' %}">
-                    <h3 class="text-center   ">Login Again</h3>
-                  </a>
-           
-            </div>  
-            </div>  
-        </div>
-      
-        </div>
-      </div>
-      <div class="col-md-3 ">
-      
-      </div>
-    </div>
-  </div>
 
-    
-{% endblock content %}
+
+<link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Sans+Pro" rel="stylesheet">
+  {% endblock content %}
+  <a  class=" btn hvr-grow  hvr-float-shadow px-5 pt-2 btn btn-outline-primary" href="{% url 'login' %}">
+    <h3 class="text-center   ">Login Again</h3>
+  </a>
