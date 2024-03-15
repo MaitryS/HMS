@@ -15,7 +15,7 @@ class User(AbstractUser):
 class RoomType(models.Model):
     RoomName = models.CharField(max_length = 20)
     description = models.TextField(max_length=250)
-    price = models.DecimalField(max_digits=6 , decimal_places = 2)
+    price = models.DecimalField(max_digits=8 , decimal_places = 2)
 
     def __str__(self):
         return self.RoomName
@@ -36,33 +36,33 @@ class Room(models.Model):
 class Book(models.Model):
     user = models.ForeignKey(User , on_delete= models.CASCADE)
     room = models.ForeignKey(Room , on_delete= models.CASCADE)
-    checkin =models.DateTimeField()
-    checkout =models.DateTimeField()
-    totalprice = models.DecimalField(max_digits=6 , decimal_places=2)
+    arrival_date = models.DateField( null=True)
+    departure_date = models.DateField(null=True)
+    checkin =models.TimeField()
+    checkout =models.TimeField()
 
     def __str__(self):
         return self.user.first_name
      
 class Bill(models.Model):
-    user = models.ForeignKey(User , on_delete= models.CASCADE)
     book = models.ForeignKey(Book , on_delete= models.CASCADE)
-    amount = models.DecimalField(max_digits=6 , decimal_places=2)
+    TotalPrice = models.DecimalField(max_digits=8 , decimal_places=2, null = True)
     paymentdate =models.DateTimeField()
     paymentmethod =models.CharField(max_length=8 ,null = True)
     
     def __str__(self):
-        return self.user.first_name
+        return self.book.user.first_name
 
 
 class Contact(models.Model):
-    firstName = models.CharField(max_length=20)
-    lastName = models.CharField(max_length=20)
+    firstname = models.CharField(max_length=20)
+    lastname = models.CharField(max_length=20)
     email = models.EmailField(max_length=50)
     subject = models.CharField(max_length=20 , null = True)
     message = models.TextField(max_length=255)
 
     def __str__(self):
-        return self.firstName
+        return self.firstname
 
 
 class Staff(models.Model):

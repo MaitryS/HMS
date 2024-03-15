@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Applicant Information</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    {% for bill in bills %}
+    <div class="container">
+        <h1 style="text-align: center;">The Metro</h1>
+        <h2>User Information</h2>
+        <table class="table">
+            <tr>
+                <th>FirstName</th>
+                <td>{{ bill.book.user.first_name }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ bill.book.user.last_name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ bill.book.user.email }}</td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>{{ bill.book.user.contactno }}</td>
+            </tr>
+        </table>
+
+        <h2>Room Details</h2>
+        <table class="table">
+            <tr>
+                <th>Room Name</th>
+                <td>{{ bill.book.room.RoomType.RoomName }}</td>
+            </tr>
+            <tr>
+                <th>Room Size</th>
+                <td>{{ bill.book.room.roomsize }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ bill.book.room.RoomType.description }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ bill.book.room.RoomType.price }}</td>
+            </tr>
+        </table>
+
+        <h2>Booking Details</h2>
+        <table class="table">
+            <tr>
+                <th>Arrival Date</th>
+                <td>{{bill.book.arrival_date}}</td>
+            </tr>
+            <tr>
+                <th>Departure Date</th>
+                <td>{{bill.book.departure_date}}</td>
+            </tr>
+            <tr>
+                <th>Checkin Time</th>
+                <td>{{bill.book.checkin}}</td>
+            </tr>
+            <tr>
+                <th>Checkout time</th>
+                <td>{{bill.book.checkout}}</td>
+            </tr>
+        </table>
+    </div>
+    {% endfor %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+           

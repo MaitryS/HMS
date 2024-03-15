@@ -1,32 +1,28 @@
 {% extends "Base.html" %}
-
 {% block content %}
 
 <head>
   <link rel="stylesheet" href="/static/css/Logout.css">
-  <link rel="stylesheet" href="/static/css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Sans+Pro" rel="stylesheet">
 </head>
-<div class=content>
+<div class="content  my-5">
   <div class="wrapper-1">
     <div class="wrapper-2">
       <h1>Thank you !</h1>
-      <p>Please visit The Arc Again</p>
+      <p>Please visit The Metro Again</p>
       <p> </p>
       <a class="nav-link go-home" href="{% url 'Home' %}">
       go home
       </a>
     </div>
-    <div class="footer-like">
+    <div class="footer-like ">
       <p>We Hope your stay was Fabulous
       </p>
+      <a  class=" btn hvr-grow  hvr-float-shadow px-5 pt-2 btn btn-outline-primary" href="{% url 'login' %}">
+        <h6 class="text-center">Login Again</h6>
+      </a>
     </div>
 </div>
 </div>
 
-
-
-<link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Source+Sans+Pro" rel="stylesheet">
   {% endblock content %}
-  <a  class=" btn hvr-grow  hvr-float-shadow px-5 pt-2 btn btn-outline-primary" href="{% url 'login' %}">
-    <h3 class="text-center   ">Login Again</h3>
-  </a>

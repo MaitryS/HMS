@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_filters %}
+        <!-- start page title section -->
+        <section class="page-title-section bg-img cover-background mb-4 vh-80 " data-overlay-dark="4" 
+        data-background="static\hotel_images\08.jpg" 
+         style="background-image: url('/static/hotel_images/10c.jpg');background-size: cover; ">
+            <div class="container text-dark">
+                <h1 class=" text-light" style="font-size: 70px;" >Booking</h1>
+                <ul>
+                    <li>
+                        <a href="index.html" class="text-light">Home</a>
+                    </li>
+                    <span>></span>
+                    <li>
+                        <a href="#!" class="text-light">Booking</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- end page title section -->
+
+
+
+        <section>
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-8 sm-margin-50px-bottom">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{form.arrival_date|as_crispy_field}}
+                            {{form.departure_date|as_crispy_field}}
+
+                        <div class="form-group  text-center my-3">
+                            <a href="" class="fw-bold btn butn">Confirm booking<i
+                                class="fas fa-arrow-right margin-10px-left vertical-align middle font-size12"></i></a>
+                        </div>
+                    </form>
+                  </div>
+                          
+                  <div class="col-lg-4 popular-things">
+                      <div class="padding-30px-left sm-no-padding-left">
+                          <h4 class="text-uppercase letter-spacing-1 margin-30px-bottom font-size24">Special Offers</h4>
+                          <div class="theme-shadow border-radius-3 margin-30px-bottom">
+                              <img src="img/content/01.jpg" alt="">
+                              <div class="border-bottom padding-25px-all d-flex justify-content-between">
+                                  <h5 class="font-size17 no-margin-bottom"><a href="single-room.html" class="text-extra-dark-gray"> Standard room</a></h5>
+                                  <ul class="rate no-margin-bottom">
+                                  </ul>
+                              </div>
+                              <div>
+                                  <div class="row align-items-center text-center padding-15px-tb">
+                                      <div class="col-6 border-right"><a href="single-room.html" class="butn small">book now</a></div>
+                                      <div class="col-6"><span class="display-block font-size20 letter-spacing-2 text-extra-dark-gray">1200.00 </span><span> Per night</span></div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="theme-shadow border-radius-3">
+                              <img src="img/content/02.jpg" alt="">
+                              <div class="border-bottom padding-25px-all d-flex justify-content-between">
+                                  <h5 class="font-size17 no-margin-bottom"><a href="single-room.html" class="text-extra-dark-gray"> Deluxe room</a></h5>
+
+                              </div>
+                              <div>
+                                  <div class="row align-items-center text-center padding-15px-tb">
+                                      <div class="col-6 border-right"><a href="single-room.html" class="butn small">book now</a></div>
+                                      <div class="col-6"><span class="display-block font-size20 letter-spacing-2 text-extra-dark-gray">1500.00 </span><span> Per night</span></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+        {% endblock content %}

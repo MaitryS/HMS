@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_filters %} 
+
+<div class = "container my-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+              <img src="/media/{{room.roomimage}}" alt="">
+            </div>
+            <div class="row">
+                <a href="/Booking/{{room.id}}" class="btn btn-primary my-4">Book Now </a>
+            </div> 
+        </div>
+        <div class="col-md-8">
+            <h5><b>Room:</b> {{room.RoomType.RoomName}}</h5>
+            <p> <b>Description: </b> {{room.RoomType.description}}</p>
+            <p> <b>Room Size:</b>{{room.roomsize}}</p>
+            <p> <b>Amenities: </b><pre style="font-family: 'Times New Roman', Times, serif; text-decoration-style: dotted;">{{room.amenities}}</pre></p>
+            <p> <b>Price: </b> {{room.RoomType.price}}</p>
+        </div>
+    </div>
+</div>
+<form method="POST">
+    {% csrf_token %}
+    {{ form |crispy }}
+</form>
+{% endblock content %}

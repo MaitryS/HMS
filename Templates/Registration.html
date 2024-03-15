@@ -1,55 +1,65 @@
 {% extends "base.html" %}
 {% block content %}
 {% load crispy_forms_filters %}
+<div class="main-wrapper">
+  <!-- start registration section -->
+  <div class="d-flex align-items-center position-relative min-vh-100">
+    <!-- start right content -->
+    <div class="container-fluid bg-img height-150vh xs-display-none" data-background="img/content/login-register.jpg"
+      style="background-image: url('/static/hotel_images/17.jpg');background-size: cover; height: 1080px;">
+    </div>
+    <!-- end right content -->
 
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-7">
-      <h2> User Registration:</h2>
-      <hr class="mt-0 mb-4" />
+    <!-- start right content -->
+    <div class="col-sm-8 center-col col-md-6 col-xl-5 d-lg-flex align-items-center px-5">
+
+      <div class="w-100 padding-50px-all sm-padding-30px-all xs-padding-20px-all">
+        <h3>Registration</h3>
         <form method="POST">
           {% csrf_token %}
           {% comment %} {{form | crispy }} {% endcomment %}
-          <div class="row mt-2 form-group">
-            <div
-              class="col-md-6 mb-3 mb-md-0">
+          <div class="row">
+            {{ form.username|as_crispy_field }}
+            <div class="col-6">
               {{ form.first_name|as_crispy_field }}
             </div>
-            <div
-              class="col-md-6">
+            <div class="col-6">
               {{ form.last_name|as_crispy_field }}
             </div>
           </div>
-          <div class="row mt-2 form-group">
-            <div class="col-md-6 mb-3 mb-md-0">
+          <div class="row">
+            <div class="col-12">
               {{ form.email|as_crispy_field }}
             </div>
-            <div class="col-md-6">
+            <div class="row form-group">
+            </div>
+            <div class="col-5">
               {{ form.contactno|as_crispy_field }}
             </div>
-          </div>
-          <div class="row mt-2 form-group">
-            <div class="col-md-6 mb-3 mb-md-0">
+            <div class="col-md-6">
               {{ form.gender|as_crispy_field }}
             </div>
-            <div class="col-md-6 mb-3 mb-md-0">
-              {{ form.username|as_crispy_field }}
+          </div>
+          <div class="row mt-2 form-group">
+            <div class="col-md-12  ">
+              {{ form.password1|as_crispy_field }}
             </div>
           </div>
           <div class="row mt-2 form-group">
-            <div class="col-md-6 mb-3 mb-md-0">
-              {{ form.password1|as_crispy_field }}
-            </div>
-            <div class="col-md-6 mb-3 mb-md-0">
+            <div class="col-md-12">
               {{ form.password2|as_crispy_field }}
             </div>
           </div>
-          <button type="submit" class="btn btn-primary"><a href = "{% url 'login' %}" style="text-decoration-line: none; color: white;">Submit</a></button>
-        </form>
-      </div>
+
+          <div class="form-group  text-center my-3">
+            <button class="btn butn px-5 hvr-grow   " type="submit">Register</button>
+        </div>
+      </form>
     </div>
+
   </div>
-
-
-
-  {% endblock content %}
+  <!-- end right content -->
+</div>
+<!-- end registration section -->
+</div>
+{% endblock content %}

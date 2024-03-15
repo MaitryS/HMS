@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 
-Gender_choices = [('1','Male'),('2','Female')]
+Gender_choices = [('Male','Male'),('Female','Female')]
 
 class UserSignUpForm(UserCreationForm):
     first_name=forms.CharField(required=True)
@@ -42,17 +42,30 @@ class RoomTypeForm(forms.ModelForm):
 meals_choices = [('1', 'no meals') , ('2' , 'breakfast') , ('3', 'breakfast with lunch'), ('4','breakfast with lunch and dinner')]
 
 class RoomForm(forms.ModelForm):
-    meals=forms.ChoiceField(choices=meals_choices,widget=forms.RadioSelect() ,required= True)
+    meals=forms.ChoiceField(choices= meals_choices,widget=forms.RadioSelect() ,required= True)
     class Meta:
         model = Room
         fields = "__all__"
 
-class BookForm(forms.ModelForm):
-    checkin = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
-    checkout = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+class BookForm(forms.ModelForm):  
+    arrival_date = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    departure_date = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    def __init__(self, **kwargs):
+        self.room = kwargs.pop('room', None)
+        self.user = kwargs.pop('user', None)
+        super(BookForm, self).__init__(**kwargs)
+
+    def save(self, commit=True):
+        obj = super(BookForm, self).save(commit=False)
+        obj.room = self.room
+        obj.user = self.user
+        if commit:
+            obj.save()
+        return obj
+
     class Meta:
         model = Book
-        fields = "__all__"
+        fields = ("arrival_date" , "departure_date")
 
 class BillForm(forms.ModelForm):
     paymentdate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))

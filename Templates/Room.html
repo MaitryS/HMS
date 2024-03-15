@@ -2,20 +2,55 @@
 {% block content %}
 {% load crispy_forms_filters %}
 
+        <!-- start page title section -->
+        <section class="page-title-section bg-img cover-background mb-4 vh-80 " data-overlay-dark="4" 
+        data-background="static\hotel_images\08.jpg" 
+         style="background-image: url('/static/hotel_images/10c.jpg');background-size: cover; ">
+            <div class="container text-dark">
+                <h1 class=" text-light" style="font-size: 70px;" >Our Rooms</h1>
+                <ul>
+                    <li>
+                        <a href="index.html" class="text-light">Home</a>
+                    </li>
+                    <span>></span>
+                    <li>
+                        <a href="#!" class="text-light">Rooms</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- end page title section -->
 
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-7">
-          <h1>Room:</h1>
-          <hr class="mt-0 mb-4" />
-            <form method="post" action="">
-              {% csrf_token %} 
-              {{form | crispy }}
-              <button type="submit" class="btn btn-primary">Post Feedback</button>
-            </form>
-        </div>
+
+
+
+<section>
+  <div class="container my-5">
+      <div class="text-center ">
+          <h3 class=" mb-3">Our Rooms</h3>
+          <p class="no-margin-bottom">Lorem Ipsum is simply dummy printing</p>
       </div>
-    </div>
+      <div class="row mt-5">
+          {% for room_instance in rooms %}
+          <div class="card m-3" style="width: 18rem;">
+              <img src="{{ room_instance.roomimage.url }}" class="card-img-top" alt="...">
+              <div class="card-body">
+                  <a href="">
+                      <h5 class="margin-5px-bottom font-size28 xs-font-size24">{{ room_instance.RoomType.RoomName }}
+                      </h5>
+                  </a>
+                  <p class="card-text"> Room Size:   {{ room_instance.roomsize }}</p>
+                  <p class="card-text"> Description: {{ room_instance.RoomType.description }}</p>
+                  <div
+                      class="font-size12 text-uppercase text-extra-dark-gray font-weight-700 margin-20px-bottom letter-spacing-2">
+                      Start from ₹{{ room_instance.RoomType.price }} /night</div>
+                  <a href="/Room/{{room_instance.id}}" class="fw-bold btn butn text-center"> View <i class="fas fa-arrow-right margin-10px-left vertical-align middle font-size12"></i></a>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</section>
 {% endblock content %}
 
 
