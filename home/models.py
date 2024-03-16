@@ -25,7 +25,6 @@ class Room(models.Model):
     RoomType = models.ForeignKey(RoomType , on_delete= models.CASCADE)
     roomimage = models.ImageField(upload_to= 'img' , null = True)
     roomsize = models.CharField(max_length = 20 , null = True)
-    meals = models.CharField(max_length= 40 ,null = True)
     amenities = models.TextField(max_length=260)
     
     def __str__(self):
@@ -33,22 +32,18 @@ class Room(models.Model):
 
 
 
-class Book(models.Model):
+class Booking(models.Model):
     user = models.ForeignKey(User , on_delete= models.CASCADE)
     room = models.ForeignKey(Room , on_delete= models.CASCADE)
-    arrival_date = models.DateField( null=True)
-    departure_date = models.DateField(null=True)
-    checkin =models.TimeField()
-    checkout =models.TimeField()
+    checkin_date = models.DateField( null=True)
+    checkout_date = models.DateField(null=True)
 
     def __str__(self):
         return self.user.first_name
      
 class Bill(models.Model):
-    book = models.ForeignKey(Book , on_delete= models.CASCADE)
+    booking = models.ForeignKey(Booking , on_delete= models.CASCADE)
     TotalPrice = models.DecimalField(max_digits=8 , decimal_places=2, null = True)
-    paymentdate =models.DateTimeField()
-    paymentmethod =models.CharField(max_length=8 ,null = True)
     
     def __str__(self):
         return self.book.user.first_name
@@ -83,11 +78,15 @@ class Staff(models.Model):
     def __str__(self):
         return self.firstName
 
+class Search(models.Model):
+    guest = models.CharField(max_length = 10 ,default="", blank=True)
+    checkin =models.DateTimeField(null=True)
+    checkout =models.DateTimeField(null=True)
+    
 class Feedback(models.Model):
-    firstName = models.CharField(max_length=20)
-    lastName = models.CharField(max_length=20)
+    name = models.CharField(max_length=20)
     email = models.EmailField(max_length=50)
     message = models.TextField(max_length=255)
 
     def __str__(self):
-        return self.firstName
+        return self.name

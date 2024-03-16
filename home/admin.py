@@ -16,5 +16,6 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User , CustomUserAdmin)
 admin.site.register(Room)
 admin.site.register(RoomType)
-admin.site.register(Book)
+admin.site.register(Booking)
 admin.site.register(Bill)
+admin.site.register(Search)

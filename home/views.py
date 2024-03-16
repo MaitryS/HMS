@@ -26,8 +26,9 @@ from email import encoders
 
 def Home(request):
     tr=RoomType.objects.all()
-    room = Room.objects.all()
-    context = {'room': room,}
+    room = Room.objects.all()[:4]
+    search = Search.objects.all()
+    context = {'room': room,'search':search}
     return render(request , "index.html",context)
 
 def About(request):
@@ -62,69 +63,32 @@ def Login(request):
             messages.error(request, 'Invalid username or password.')
 
         messages.success(request, f' Welcome! {username} You have uccesfully logged in.')
-    return render(request, 'login.html')
-    
-
-
+    return render(request, 'login.html')    
 
 def Contact(request):
     if request.method == 'POST':
-
         form = ContactForm(request.POST)
-
         if form.is_valid():
-
             instance = form.save(commit = False)
             instance.save()
             messages.success(request, 'Your Details Submited Sucessfully')
-            return redirect("Contact")
-    
+            return redirect("Contact")    
     else:
         form = ContactForm()
-
     params = {'form': form}
     return render(request, "Contact.html", params)
 
-@login_required
-def Feedback(request):
+def Check_Availability(request):
     if request.method == 'POST':
-
-        form = FeedbackForm(request.POST)
-
+        form = SearchForm(request.POST , request.FILES)
         if form.is_valid():
-
-            instance = form.save(commit = False)
-            instance.save()
-            messages.success(request, 'FeedBack Submited Sucessfully')
-            params = {'Feedbackdata': FeedbackForm()} 
-            return render(request , "Feedback.html" , params)
-    
+            form.save()
+            params = {'Data': SearchForm()} 
+            return render(request , "index.html" , params)   
     else:
-        form = FeedbackForm()
-
+        form = SearchForm()
     params = {'form': form}
-    return render(request, "Feedback.html", params)
-
-
-
-def Staff(request):
-    if request.method == 'POST':
-
-        form = StaffForm(request.POST , request.FILES)
-
-        if form.is_valid():
-
-            instance = form.save(commit = False)
-            instance.save()
-
-            params = {'staffData': StaffForm()} 
-            return render(request , "Staff.html" , params)
-    
-    else:
-        form = StaffForm()
-
-    params = {'form': form}
-    return render(request, "Staff.html", params)
+    return render(request, "index.html", params)
 
 def ourRooms(request):
     room_types = RoomType.objects.all()
@@ -136,49 +100,41 @@ def Roomview(request , myid):
     rooms = Room.objects.all()
     room = Room.objects.filter(id = myid)
     print(room) 
-
-    params = {'room': room[0] , 'rooms': rooms} 
-    return render(request , "Room1.html" , params)
-    
-
-def Room1(request):
-
     if request.method == 'POST':
-
-        form = RoomForm(request.POST)
-
+        form = FeedbackForm(request.POST)
         if form.is_valid():
-
-            instance = form.save(commit = False)
-            instance.save()
-
-            params = {'RoomData': RoomForm()} 
-            return render(request , "Room1.html" , params)
-    
+            form.save()
+            messages.success(request, 'FeedBack Submited Sucessfully')
+            params = {'Feedbackdata': FeedbackForm()} 
+            return redirect("Home")    
     else:
-        form = RoomForm()
-
-    params = {'form': form}
-    return render(request, "Room1.html", params)
-
+        form = FeedbackForm()  
+    params = {'room': room[0] , 'rooms': rooms ,'form': form} 
+    return render(request , "Room1.html" , params)
+   
 
 @login_required
-def Booking(request , rid):
-    # room = Room.objects.filter(id = rid)
-    room = get_object_or_404(Room, pk= rid)
-    form = BookForm(room=room, user=request.user, data=request.POST)
-    if form.is_valid():
-        form.save()
-        return redirect("Bill")
-    else:
-        return render(request , "Booking.html")    
-    # params = {'room':room[0]}
-
-
+def Booking(request ):
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit = False)
+            instance.user_id = request.user.id 
+            instance.save()
+            messages.success(request, 'Your Details Submited Sucessfully')
+            return redirect("Booking")
     
+    else:
+        form = BookingForm()
+
+    params = {'form': form}
+    return render(request, "Booking.html", params)
+
+
 def generate_pdf():
     # Retrieve the details from model or any other data source
-    bills = Bill.objects.select_related('book').all()
+    bills = Bill.objects.select_related('booking').all()
+    bill = Bill.objects.all()
 
         # Render the template with the bills data
     template_path = 'Bill.html'
@@ -189,6 +145,7 @@ def generate_pdf():
     # Create a PDF file
     pdf_file = BytesIO()
     pisa_status = pisa.CreatePDF(html, dest = pdf_file)
+    print(html)
     
     if pisa_status.err:
         return HttpResponse('Failed to generate PDF')  # Return error if PDF generation fails
@@ -221,7 +178,7 @@ def Billing(request):
     message.attach(MIMEText(body, "plain"))
 
     # Add PDF attachment
-    part = MIMEBase("application", "octet-stream")
+    part = MIMEBase("application/pdf", "octet-stream")
     part.set_payload(pdf_content)
     encoders.encode_base64(part)
     part.add_header("Content-Disposition", "attachment; filename=dest.pdf")

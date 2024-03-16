@@ -31,15 +31,15 @@ background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url('/stati
                                 <div class="row align-items-center justify-content-center">
                                     <div class="col-md-6 col-lg-3">
                                         <div class="form-group">
-                                            <label class="form-label text-light fw-bold">Arrival Date</label>
-                                            <input type="text" class="form-control" name="date" placeholder="Date:"
+                                            <label class="form-label text-light fw-bold">Checkin Date</label>
+                                            <input type="date" class="form-control" name="date" placeholder="{{search.checkin}}:"
                                                 data-provide="datepicker">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3">
                                         <div class="form-group">
-                                            <label class="form-label text-light fw-bold">Departure Date</label>
-                                            <input type="text" class="form-control" name="date" placeholder="Date:"
+                                            <label class="form-label text-light fw-bold">Checkout Date</label>
+                                            <input type="date" class="form-control" name="date" placeholder="{{search.checkout}}:"
                                                 data-provide="datepicker">
                                         </div>
                                     </div>
@@ -48,10 +48,9 @@ background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url('/stati
                                             <div>
                                                 <label class="form-label">Guests</label>
                                                 <select class="form-select">
-                                                    <option value="0">0</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    {% for i in search %}
+                                                    <option>{{i.guest}}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                         </div>

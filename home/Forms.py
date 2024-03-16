@@ -39,39 +39,34 @@ class RoomTypeForm(forms.ModelForm):
         model = RoomType
         fields = "__all__"
 
-meals_choices = [('1', 'no meals') , ('2' , 'breakfast') , ('3', 'breakfast with lunch'), ('4','breakfast with lunch and dinner')]
+
 
 class RoomForm(forms.ModelForm):
-    meals=forms.ChoiceField(choices= meals_choices,widget=forms.RadioSelect() ,required= True)
     class Meta:
         model = Room
         fields = "__all__"
 
-class BookForm(forms.ModelForm):  
-    arrival_date = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
-    departure_date = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
-    def __init__(self, **kwargs):
-        self.room = kwargs.pop('room', None)
-        self.user = kwargs.pop('user', None)
-        super(BookForm, self).__init__(**kwargs)
-
-    def save(self, commit=True):
-        obj = super(BookForm, self).save(commit=False)
-        obj.room = self.room
-        obj.user = self.user
-        if commit:
-            obj.save()
-        return obj
-
+class BookingForm(forms.ModelForm):  
+    checkin_date = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    checkout_date = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
     class Meta:
-        model = Book
-        fields = ("arrival_date" , "departure_date")
+        model = Booking
+        fields = ("room","checkin_date", "checkout_date")
 
 class BillForm(forms.ModelForm):
-    paymentdate = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
     class Meta:
         model = Bill
         fields = "__all__"
+
+Guest = [('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),('6','6')]
+class SearchForm(forms.ModelForm):
+    gender=forms.ChoiceField(choices= Guest,required= True)
+    checkin = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    checkout = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
+    class Meta:
+        model = Search
+        fields = "__all__"
+
 
 
 class FeedbackForm(forms.ModelForm):
