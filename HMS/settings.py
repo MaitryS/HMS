@@ -157,3 +157,13 @@ LOGIN_REDIRECT_URL = 'Home'
 LOGIN_URL = 'login'    
 LOGIN_REDIRECT_URL = 'Home'
 LOGOUT_URL = 'logout'
+
+#SMTP SETTINGS
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER ='themetro1224@gmail.com'
+EMAIL_HOST_PASSWORD = 'obux gkzm gsiw irq'
+DEFAULT_FROM_EMAIL = 'Testing <themetro1224@gmail.com>'
+

@@ -36,28 +36,18 @@
         <tbody>
             <tr>
                 <td>1</td>
-                <td>{{ bill.booking.user.first_name }}</td>
-                <td>{{ bill.booking.room.RoomType.RoomName }}</td>
+                <td>{{ user_firstname }}</td>
+                <td>{{ room }}</td>
             </tr>
             <tr>
                 <td>2</td>
-                <td>{{ bill.booking.user.last_name }}</td>
-                <td>{{ bill.booking.room.RoomType.description }}</td>
+                <td>{{ user_lastname }}</td>
+                <td>{{desc }}</td>
             </tr>
             <tr>
                 <td>3</td>
-                <td>{{ bill.booking.user.email }}</td>
-                <td>{{ bill.booking.room.RoomType.price }}</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>{{ bill.booking.user.contactno }}</td>
-                <td>{{ bill.booking.checkin_date }}</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>{{ bill.booking.user.contactno }}</td>
-                <td>{{ bill.booking.checkout_date }}</td>
+                <td>{{user_contactno }}</td>
+                <td>{{ price }}</td>
             </tr>
         </tbody>
     </table>

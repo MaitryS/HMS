@@ -1,14 +1,18 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.conf import settings
+from django.http import HttpResponse, HttpResponseRedirect 
 from django.shortcuts import get_object_or_404, render ,redirect
 from django.contrib import messages
 from django.urls import reverse
+from requests import Response
+
+from home.helpers import save_pdf
 from .Forms import  *
 from .models import *
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import  login_required
 from .decorators  import unauthenticated_user
-from datetime import date
+from datetime import date, datetime
 # generating pdf from bill
 from xhtml2pdf import pisa
 from io import BytesIO
@@ -21,6 +25,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
+from django.core.mail import EmailMultiAlternatives
+
 # # Create your views here.
 
 
@@ -131,65 +137,101 @@ def Booking(request ):
     return render(request, "Booking.html", params)
 
 
-def generate_pdf():
-    # Retrieve the details from model or any other data source
-    bills = Bill.objects.select_related('booking').all()
-    bill = Bill.objects.all()
+# def generate_pdf():
+#     # Retrieve the details from model or any other data source
+#     bills = Bill.objects.select_related('booking').all()
+#     bill = Bill.objects.all()
 
-        # Render the template with the bills data
-    template_path = 'Bill.html'
-    context = {'bills': bills}
-    template = get_template(template_path)
-    html = template.render(context)
+#         # Render the template with the bills data
+#     template_path = 'Bill.html'
+#     context = {'bills': bills}
+#     template = get_template(template_path)
+#     html = template.render(context)
     
-    # Create a PDF file
-    pdf_file = BytesIO()
-    pisa_status = pisa.CreatePDF(html, dest = pdf_file)
-    print(html)
+#     # Create a PDF file
+#     pdf_file = BytesIO()
+#     pisa_status = pisa.CreatePDF(html, dest = pdf_file)
+#     print(html)
     
-    if pisa_status.err:
-        return HttpResponse('Failed to generate PDF')  # Return error if PDF generation fails
-    else:
-        return pdf_file.getvalue()  # Return the content of the PDF file
+#     if pisa_status.err:
+#         return HttpResponse('Failed to generate PDF')  # Return error if PDF generation fails
+#     else:
+#         return pdf_file.getvalue()  # Return the content of the PDF file
     
-@login_required
+# @login_required
 def Billing(request):
-    # Generate PDF
-    pdf_content = generate_pdf()
-    print(pdf_content)
+#     # Generate PDF
+#     pdf_content = generate_pdf()
+#     print(pdf_content)
     
-    if pdf_content is None:
-        return HttpResponse('Failed to generate PDF')
-    # dipanshshah20@gmail.com
-    # jainish1604@gmail.com
-    # Email configuration
-    sender_email = "themetro1224@gmail.com"
-    receiver_email = "maitryshah91101@gmail.com"
-    subject = "Your Booking Details"
-    body = "Please confirm the attached PDF Booking file."
+#     if pdf_content is None:
+#         return HttpResponse('Failed to generate PDF')
+#     # dipanshshah20@gmail.com
+#     # jainish1604@gmail.com
+#     # Email configuration
+#     sender_email = "themetro1224@gmail.com"
+#     receiver_email = "maitryshah91101@gmail.com"
+#     subject = "Your Booking Details"
+#     body = "Please confirm the attached PDF Booking file."
 
-    # Create a multipart message
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = receiver_email
-    message["Subject"] = subject
+#     # Create a multipart message
+#     message = MIMEMultipart()
+#     message["From"] = sender_email
+#     message["To"] = receiver_email
+#     message["Subject"] = subject
+#     # app password :obux gkzm gsiw irq
+#     # email password: admin1224@@
+#     # Add body to email
+#     message.attach(MIMEText(body, "plain"))
 
-    # Add body to email
-    message.attach(MIMEText(body, "plain"))
+#     # Add PDF attachment
+#     part = MIMEBase("application/pdf", "octet-stream")
+#     part.set_payload(pdf_content)
+#     encoders.encode_base64(part)
+#     part.add_header("Content-Disposition", "attachment; filename=dest.pdf")
+#     message.attach(part)
 
-    # Add PDF attachment
-    part = MIMEBase("application/pdf", "octet-stream")
-    part.set_payload(pdf_content)
-    encoders.encode_base64(part)
-    part.add_header("Content-Disposition", "attachment; filename=dest.pdf")
-    message.attach(part)
-
-    # Connect to SMTP server and send email
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls()
-        server.login(sender_email, "rozt mpta mtdu ctcz")
-        server.sendmail(sender_email, receiver_email, message.as_string())
+#     # Connect to SMTP server and send email
+#     with smtplib.SMTP("smtp.gmail.com", 587) as server:
+#         server.starttls()
+#         server.login(sender_email, "obux gkzm gsiw irq")
+#         server.sendmail(sender_email, receiver_email, message.as_string())
     
-    print("Email sent successfully!")
-    return HttpResponse("Email sent successfully!")
+#     print("Email sent successfully!")
+#     return HttpResponse("Email sent successfully!")
 
+            try:
+                bill = Bill.objects.all()
+            except:
+                return HttpResponse("505 Not Found")
+            try:
+                    ## For generating Invoice PDF
+                    template = get_template('Bill.html')
+                    data = {
+                        'user_firstname' : bill.booking.user.first_name,
+                        'user_lastname'  : bill.booking.user.last_name , 
+                        'user_contactno' : bill.booking.user.contactno,
+                        'room' : bill.booking.room.RoomType.RoomName ,
+                        'desc':  bill.booking.room.RoomType.description,
+                        'price':  bill.booking.room.RoomType.price,
+                    }
+                    html  = template.render(data)
+                    result = BytesIO()
+                    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+                    pdf = result.getvalue()
+                    filename =  data['user_firstname'] + '.pdf'
+
+                    mail_subject = 'Your Booking Details'
+                    to_email = "maitryshah91101@gmail.com"
+                    email = EmailMultiAlternatives(
+                        mail_subject,
+                        settings.EMAIL_HOST_USER,
+                        [to_email]
+                    )
+                    email.attach(filename, pdf, 'application/pdf')
+                    email.send(fail_silently=False)
+
+                    return render(request, 'Bill.html')
+            except:
+                    return HttpResponse("Error!")
+          
