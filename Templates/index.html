@@ -27,20 +27,19 @@ background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url('/stati
                     <div class="container">
                         <div
                             class="bg-white-opacity padding-40px-all sm-padding-30px-all xs-padding-20px-all border-radius-3">
-                            <form method="post" action="#!">
+                            <form method="POST" action="{% url 'check_availability' %}">
+                                {% csrf_token %}
                                 <div class="row align-items-center justify-content-center">
                                     <div class="col-md-6 col-lg-3">
                                         <div class="form-group">
                                             <label class="form-label text-light fw-bold">Checkin Date</label>
-                                            <input type="date" class="form-control" name="{{search.checkin}}" placeholder="Date:"
-                                                data-provide="datepicker">
+                                            <input type="date" class="form-control" name="{{search.checkin}}" placeholder="Date" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3">
                                         <div class="form-group">
                                             <label class="form-label text-light fw-bold">Checkout Date</label>
-                                            <input type="date" class="form-control" name="{{search.checkout}}" placeholder="Date:"
-                                                data-provide="datepicker">
+                                            <input type="date" class="form-control" name="{{search.checkout}}" placeholder="Date"  required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3">
@@ -48,19 +47,18 @@ background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url('/stati
                                             <div>
                                                 <label class="form-label">Guests</label>
                                                 <select class="form-select">
-                                                    {% for i in search %}
-                                                    <option>{{i.guest}}</option>
+                                                    {% for guest in search %}
+                                                    <option>{{guest.guest.GuestNumber}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3 margin-30px-top xs-margin-15 px-top pt-4">
-                                        <button type="submit" class="butn no-margin-bottom float-right">Check
-                                            Availability</button>
+                                        <button type="submit" class="butn no-margin-bottom float-right">Check Availability</button>
                                     </div>
                                 </div>
-                            </form>
+                            </form>                            
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 admin.site.register(Feedback)
 admin.site.register(Staff)
 admin.site.register(Contact)
+admin.site.register(Guest)
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('first_name' , 'last_name' , 'email' , 'gender' , 'username' ,)

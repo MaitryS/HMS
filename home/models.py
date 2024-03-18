@@ -14,7 +14,7 @@ class User(AbstractUser):
 
 class RoomType(models.Model):
     RoomName = models.CharField(max_length = 20)
-    description = models.TextField(max_length=250)
+    description = models.TextField(max_length=250 , null = True)
     price = models.DecimalField(max_digits=8 , decimal_places = 2)
 
     def __str__(self):
@@ -42,7 +42,7 @@ class Booking(models.Model):
         return self.user.first_name
      
 class Bill(models.Model):
-    booking = models.ForeignKey(Booking , on_delete= models.CASCADE)
+    booking = models.ForeignKey(Booking , on_delete= models.CASCADE , default = "")
     TotalPrice = models.DecimalField(max_digits=8 , decimal_places=2, null = True)
     
     def __str__(self):
@@ -73,18 +73,25 @@ class Staff(models.Model):
     position = models.CharField(max_length=20)
     salary = models.DecimalField(max_digits = 6 , decimal_places = 2)
     startdate =models.DateTimeField(null=True)
-    enddate =models.DateTimeField(null=True)
+    enddate =models.DateTimeField(null=True , blank = True)
 
     def __str__(self):
         return self.firstName
 
+
+class Guest(models.Model):
+    GuestNumber = models.IntegerField(null = True)
+
+    def __str__(self):
+        return f'guest {self.GuestNumber}'
+
 class Search(models.Model):
-    guest = models.CharField(max_length = 10 ,default="", blank=True)
+    guest = models.ForeignKey(Guest , on_delete= models.CASCADE , default = "")
     checkin =models.DateTimeField(null=True)
     checkout =models.DateTimeField(null=True)
     
 class Feedback(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20 , null = True)
     email = models.EmailField(max_length=50)
     message = models.TextField(max_length=255)
 

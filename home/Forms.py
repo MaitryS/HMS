@@ -58,9 +58,13 @@ class BillForm(forms.ModelForm):
         model = Bill
         fields = "__all__"
 
-Guest = [('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),('6','6')]
+class GuestForm(forms.ModelForm):
+    class Meta:
+        model = Guest
+        fields = "__all__"
+
 class SearchForm(forms.ModelForm):
-    gender=forms.ChoiceField(choices= Guest,required= True)
+    guest = forms.ChoiceField(choices= Guest,required= True)
     checkin = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
     checkout = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
     class Meta:

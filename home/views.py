@@ -4,8 +4,6 @@ from django.shortcuts import get_object_or_404, render ,redirect
 from django.contrib import messages
 from django.urls import reverse
 from requests import Response
-
-from home.helpers import save_pdf
 from .Forms import  *
 from .models import *
 from django.views.generic import CreateView
@@ -26,16 +24,52 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
 from django.core.mail import EmailMultiAlternatives
+import datetime
 
 # # Create your views here.
 
 
+def check_availability(room , checkin , checkout):
+    avail_list = []
+    booking_list = Booking.objects.filter(room = room)
+    for booking in booking_list:
+        if booking.checkin_date > checkout or booking.checkout_date < checkin:
+            avail_list.append(True)
+        else:
+            avail_list.append((False))
+    return all(avail_list)     
+
+
 def Home(request):
     tr=RoomType.objects.all()
-    room = Room.objects.all()[:4]
+    room = Room.objects.all()[:3]
+    rooms = Room.objects.all()
     search = Search.objects.all()
-    context = {'room': room,'search':search}
-    return render(request , "index.html",context)
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            checkin = form.cleaned_data['checkin']
+            checkout = form.cleaned_data['checkout']
+            available_rooms = []
+            instance = form.save(commit = False)
+            instance.save()
+            for rm in rooms:
+                if check_availability(rm, checkin, checkout):
+                    available_rooms.append(rm)
+            if available_rooms:
+                messages.success(request, f"Rooms are available for the selected dates.")
+            else:
+                messages.error(request, f"No rooms available for the selected dates.")
+    else:
+        form = SearchForm()
+    
+    context = {
+        'room': room, 
+        'form': form , 
+        'rooms' :rooms , 
+        'search' :search ,
+        }
+    return render(request, "index.html", context)
 
 def About(request):
     return render(request , "About.html")
@@ -84,17 +118,17 @@ def Contact(request):
     params = {'form': form}
     return render(request, "Contact.html", params)
 
-def Check_Availability(request):
+def Staff(request):
     if request.method == 'POST':
-        form = SearchForm(request.POST , request.FILES)
+        form = StaffForm(request.POST , request.FILES)
         if form.is_valid():
             form.save()
-            params = {'Data': SearchForm()} 
-            return render(request , "index.html" , params)   
+            params = {'Data': StaffForm()} 
+            return render(request , "staff.html" , params)   
     else:
-        form = SearchForm()
+        form = StaffForm()
     params = {'form': form}
-    return render(request, "index.html", params)
+    return render(request, "staff.html", params)
 
 def ourRooms(request):
     room_types = RoomType.objects.all()
@@ -117,10 +151,11 @@ def Roomview(request , myid):
         form = FeedbackForm()  
     params = {'room': room[0] , 'rooms': rooms ,'form': form} 
     return render(request , "Room1.html" , params)
+
    
 
 @login_required
-def Booking(request ):
+def BookingRoom(request ):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
@@ -136,102 +171,3 @@ def Booking(request ):
     params = {'form': form}
     return render(request, "Booking.html", params)
 
-
-# def generate_pdf():
-#     # Retrieve the details from model or any other data source
-#     bills = Bill.objects.select_related('booking').all()
-#     bill = Bill.objects.all()
-
-#         # Render the template with the bills data
-#     template_path = 'Bill.html'
-#     context = {'bills': bills}
-#     template = get_template(template_path)
-#     html = template.render(context)
-    
-#     # Create a PDF file
-#     pdf_file = BytesIO()
-#     pisa_status = pisa.CreatePDF(html, dest = pdf_file)
-#     print(html)
-    
-#     if pisa_status.err:
-#         return HttpResponse('Failed to generate PDF')  # Return error if PDF generation fails
-#     else:
-#         return pdf_file.getvalue()  # Return the content of the PDF file
-    
-# @login_required
-def Billing(request):
-#     # Generate PDF
-#     pdf_content = generate_pdf()
-#     print(pdf_content)
-    
-#     if pdf_content is None:
-#         return HttpResponse('Failed to generate PDF')
-#     # dipanshshah20@gmail.com
-#     # jainish1604@gmail.com
-#     # Email configuration
-#     sender_email = "themetro1224@gmail.com"
-#     receiver_email = "maitryshah91101@gmail.com"
-#     subject = "Your Booking Details"
-#     body = "Please confirm the attached PDF Booking file."
-
-#     # Create a multipart message
-#     message = MIMEMultipart()
-#     message["From"] = sender_email
-#     message["To"] = receiver_email
-#     message["Subject"] = subject
-#     # app password :obux gkzm gsiw irq
-#     # email password: admin1224@@
-#     # Add body to email
-#     message.attach(MIMEText(body, "plain"))
-
-#     # Add PDF attachment
-#     part = MIMEBase("application/pdf", "octet-stream")
-#     part.set_payload(pdf_content)
-#     encoders.encode_base64(part)
-#     part.add_header("Content-Disposition", "attachment; filename=dest.pdf")
-#     message.attach(part)
-
-#     # Connect to SMTP server and send email
-#     with smtplib.SMTP("smtp.gmail.com", 587) as server:
-#         server.starttls()
-#         server.login(sender_email, "obux gkzm gsiw irq")
-#         server.sendmail(sender_email, receiver_email, message.as_string())
-    
-#     print("Email sent successfully!")
-#     return HttpResponse("Email sent successfully!")
-
-            try:
-                bill = Bill.objects.all()
-            except:
-                return HttpResponse("505 Not Found")
-            try:
-                    ## For generating Invoice PDF
-                    template = get_template('Bill.html')
-                    data = {
-                        'user_firstname' : bill.booking.user.first_name,
-                        'user_lastname'  : bill.booking.user.last_name , 
-                        'user_contactno' : bill.booking.user.contactno,
-                        'room' : bill.booking.room.RoomType.RoomName ,
-                        'desc':  bill.booking.room.RoomType.description,
-                        'price':  bill.booking.room.RoomType.price,
-                    }
-                    html  = template.render(data)
-                    result = BytesIO()
-                    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
-                    pdf = result.getvalue()
-                    filename =  data['user_firstname'] + '.pdf'
-
-                    mail_subject = 'Your Booking Details'
-                    to_email = "maitryshah91101@gmail.com"
-                    email = EmailMultiAlternatives(
-                        mail_subject,
-                        settings.EMAIL_HOST_USER,
-                        [to_email]
-                    )
-                    email.attach(filename, pdf, 'application/pdf')
-                    email.send(fail_silently=False)
-
-                    return render(request, 'Bill.html')
-            except:
-                    return HttpResponse("Error!")
-          
