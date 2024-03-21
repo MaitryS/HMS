@@ -64,7 +64,6 @@ class GuestForm(forms.ModelForm):
         fields = "__all__"
 
 class SearchForm(forms.ModelForm):
-    guest = forms.ChoiceField(choices= Guest,required= True)
     checkin = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
     checkout = forms.DateField(widget= forms.DateInput(attrs= {'type' : 'date'}))
     class Meta:

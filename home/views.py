@@ -1,16 +1,14 @@
-from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect 
-from django.shortcuts import get_object_or_404, render ,redirect
+from django.shortcuts import render ,redirect
 from django.contrib import messages
 from django.urls import reverse
-from requests import Response
 from .Forms import  *
 from .models import *
 from django.views.generic import CreateView
-from django.contrib.auth import authenticate , login , logout
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import  login_required
 from .decorators  import unauthenticated_user
-from datetime import date, datetime
+import datetime
 # generating pdf from bill
 from xhtml2pdf import pisa
 from io import BytesIO
@@ -23,51 +21,54 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
+from django.db.models import Q
 from django.core.mail import EmailMultiAlternatives
 import datetime
 
 # # Create your views here.
+# def check_availability(request , room , checkin , checkout):
+    # avail_list = []
+    # booking_list = Booking.objects.filter(room = room)
+    # for booking in booking_list:
+    #     if booking.checkin_date >= checkout or booking.checkout_date <= checkin:
+    #         avail_list.append(True)
+    #     else:
+    #         avail_list.append((False))
+    # return all(avail_list)     
 
 
-def check_availability(room , checkin , checkout):
-    avail_list = []
-    booking_list = Booking.objects.filter(room = room)
-    for booking in booking_list:
-        if booking.checkin_date > checkout or booking.checkout_date < checkin:
-            avail_list.append(True)
+def check_availability(request):
+    if request.method == 'GET':
+        checkin = request.GET.get('checkin')
+        checkout = request.GET.get('checkout')
+        checkin_d = datetime.datetime.strptime(checkin, '%Y-%m-%d').date()
+        checkout_d = datetime.datetime.strptime(checkout, '%Y-%m-%d').date()
+        avail_list = []
+        booking_list = Booking.objects.all()
+        for booking in booking_list:
+            if booking.checkin_date > checkout_d or booking.checkout_date < checkin_d:
+                avail_list.append(True)
+            else:
+                avail_list.append((False))
+
+        if all(avail_list):
+            messages.success(request, f'Room Is available ')
+            return redirect('Home')
         else:
-            avail_list.append((False))
-    return all(avail_list)     
-
-
+           messages.error(request , f'room is not available')
+        return redirect('Home')
+    else:
+        return render(request, 'index.html', {'error_message': 'Invalid request method.'})
 def Home(request):
     tr=RoomType.objects.all()
     room = Room.objects.all()[:3]
     rooms = Room.objects.all()
-    search = Search.objects.all()
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            checkin = form.cleaned_data['checkin']
-            checkout = form.cleaned_data['checkout']
-            available_rooms = []
-            instance = form.save(commit = False)
-            instance.save()
-            for rm in rooms:
-                if check_availability(rm, checkin, checkout):
-                    available_rooms.append(rm)
-            if available_rooms:
-                messages.success(request, f"Rooms are available for the selected dates.")
-            else:
-                messages.error(request, f"No rooms available for the selected dates.")
-    else:
-        form = SearchForm()
-    
+    guest = Guest.objects.all()
+
     context = {
-        'room': room, 
-        'form': form , 
+        'room': room,  
         'rooms' :rooms , 
-        'search' :search ,
+        'guest' :guest ,
         }
     return render(request, "index.html", context)
 
@@ -120,13 +121,13 @@ def Contact(request):
 
 def Staff(request):
     if request.method == 'POST':
-        form = StaffForm(request.POST , request.FILES)
+        form = SearchForm(request.POST , request.FILES)
         if form.is_valid():
             form.save()
-            params = {'Data': StaffForm()} 
+            params = {'Data': SearchForm()} 
             return render(request , "staff.html" , params)   
     else:
-        form = StaffForm()
+        form = SearchForm()
     params = {'form': form}
     return render(request, "staff.html", params)
 

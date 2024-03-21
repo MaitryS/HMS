@@ -80,15 +80,15 @@ class Staff(models.Model):
 
 
 class Guest(models.Model):
-    GuestNumber = models.IntegerField(null = True)
+    GuestNumber = models.CharField( max_length = 10 , null = True)
 
     def __str__(self):
-        return f'guest {self.GuestNumber}'
+        return f'{self.GuestNumber}'
 
 class Search(models.Model):
-    guest = models.ForeignKey(Guest , on_delete= models.CASCADE , default = "")
-    checkin =models.DateTimeField(null=True)
-    checkout =models.DateTimeField(null=True)
+    Guest = models.ForeignKey(Guest , on_delete= models.CASCADE , default = "")
+    checkin =models.DateField(null=True)
+    checkout =models.DateField(null=True)
     
 class Feedback(models.Model):
     name = models.CharField(max_length=20 , null = True)

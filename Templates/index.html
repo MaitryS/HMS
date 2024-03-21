@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Own Your Bookings!{% endblock title %}
+{% load crispy_forms_tags %}
 {% block content %}
 {% load static %}
 
@@ -27,19 +28,18 @@ background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url('/stati
                     <div class="container">
                         <div
                             class="bg-white-opacity padding-40px-all sm-padding-30px-all xs-padding-20px-all border-radius-3">
-                            <form method="POST" action="{% url 'check_availability' %}">
-                                {% csrf_token %}
+                            <form method="get" action="{% url 'check_availability'%}">
                                 <div class="row align-items-center justify-content-center">
                                     <div class="col-md-6 col-lg-3">
                                         <div class="form-group">
                                             <label class="form-label text-light fw-bold">Checkin Date</label>
-                                            <input type="date" class="form-control" name="{{search.checkin}}" placeholder="Date" required>
+                                            <input type="date" class="form-control" name="checkin" placeholder="Date" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3">
                                         <div class="form-group">
                                             <label class="form-label text-light fw-bold">Checkout Date</label>
-                                            <input type="date" class="form-control" name="{{search.checkout}}" placeholder="Date"  required>
+                                            <input type="date" class="form-control" name="checkout" placeholder="Date"  required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-3">
@@ -47,8 +47,8 @@ background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url('/stati
                                             <div>
                                                 <label class="form-label">Guests</label>
                                                 <select class="form-select">
-                                                    {% for guest in search %}
-                                                    <option>{{guest.guest.GuestNumber}}</option>
+                                                    {% for i in guest %}
+                                                    <option>{{i.GuestNumber}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
