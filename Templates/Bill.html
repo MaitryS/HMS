@@ -1,58 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking and Billing Details</title>
+    <head>
+        <link rel="stylesheet" href="/static/css/pdf.css">
+    </head>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
+        
     </style>
 </head>
+
 <body>
-    <h1>Booking and Billing Details</h1>
-    <table>
+    <header class="clearfix">
+      <div id="company">
+        <h2 class="name">The Metro</h2>
+        <div>Shamalaji Road Opposite Collector office,Modasa</div>
+        <div>4355 6567 789</div>
+        <div><a href="mailto:company@example.com">themetro1224@gmail.com</a></div>
+      </div>
+      
+    </header>
+    <main>
+      <div id="details" class="clearfix">
+        <div id="client">
+          <div class="to">INVOICE TO:</div>
+          <h2 class="name">
+            {{bill.booking.user.first_name}} 
+        {{bill.booking.user.last_name}}
+          </h2>
+          <div class="address">{{bill.booking.user.contactno}}</div>
+          <div class="email"><a href="mailto:john@example.com"> {{bill.booking.user.email}}</a></div>
+        </div>
+        <div id="invoice">
+          <h1>INVOICE - {{bill.id}}</h1>
+           <div class="date">Date of Invoice: 01/6/2024</div>
+          <div class="date">Due Date: 30/06/2014</div> 
+        </div>
+      </div>
+      <table border="0" cellspacing="0" cellpadding="0">
         <thead>
-            <tr>
-                <th>Booking ID</th>
-                <th>user</th>
-                <th>room</th>
-                <!-- Add more column headers as needed -->
-            </tr>
+          <tr>
+            <th class="no">#</th>
+            <th class="desc">DESCRIPTION</th>
+            <th class="unit">UNIT PRICE</th>
+            <th class="qty">QUANTITY</th>
+            <th class="total">TOTAL</th>
+          </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>{{ user_firstname }}</td>
-                <td>{{ room }}</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>{{ user_lastname }}</td>
-                <td>{{desc }}</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>{{user_contactno }}</td>
-                <td>{{ price }}</td>
-            </tr>
+          <tr>
+            <td class="no">01</td>
+            <td class="desc"><h3> {{bill.booking.room}}</h3>
+                 {{bill.booking.checkin_date}}</span> --- <span>{{bill.booking.checkout_date}}</span>
+            <td class="unit">₹ {{bill.booking.room.RoomType.price}}</td>
+            <td class="qty">1</td>
+            <td class="total">₹ {{bill.booking.room.RoomType.price}}</td>
+          </tr>
+         
         </tbody>
-    </table>
+        <tfoot>
+          <tr>
+            <td colspan="2"></td>
+            <td colspan="2">SUBTOTAL</td>
+            <td> ₹ {{bill.booking.room.RoomType.price}}</td>
+          </tr>
+         <tr>
+            <td colspan="2"></td>
+            <td colspan="2">TAX 25%</td>
+            <td>$1,300.00</td>
+          </tr>
+          <tr>
+            <td colspan="2"></td>
+            <td colspan="2">GRAND TOTAL</td>
+            <td> ₹ {{bill.booking.room.RoomType.price}}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div id="thanks">Thank you!</div>
+      <div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      </div>
+    </main>
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+  
 </body>
-</html>
 
-                
-                
+</html> 
+

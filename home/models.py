@@ -42,11 +42,11 @@ class Booking(models.Model):
         return self.user.first_name
      
 class Bill(models.Model):
-    booking = models.ForeignKey(Booking , on_delete= models.CASCADE , default = "")
+    booking = models.OneToOneField(Booking , on_delete= models.CASCADE , default = "")
     TotalPrice = models.DecimalField(max_digits=8 , decimal_places=2, null = True)
     
     def __str__(self):
-        return self.book.user.first_name
+        return self.booking.user.first_name
 
 
 class Contact(models.Model):

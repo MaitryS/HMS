@@ -39,7 +39,7 @@
           <li class="nav-item">
             <a   href="{% url "Booking" %}" class="nav-link active"  aria-current="page">Book</a>
           </li>
-        </ul>
+</ul> 
         <div class="d-flex" role="search">
           {% if user.is_authenticated %}
 
@@ -69,10 +69,10 @@
   
 {% if messages %}
 {% for message in messages %}
-    <div class="alert bg-blue-200 my-0 text-primary h-3 p-2 alert-dismissible fade show" role="alert">
+    <div class="alert bg-dark my-0 text-light h-3 p-2 alert-dismissible fade show" role="alert">
       <div class="container">
         <strong class="h5">{{ message }}</strong>
-        <button type="button" class="btn-close p-1 m-2" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close p-1 m-2" data-bs-dismiss="alert" aria-label="Close"></button>  
       </div>
     </div>
 {% endfor %}

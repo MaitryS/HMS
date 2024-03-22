@@ -1,39 +1,109 @@
 {% extends "base.html" %}
 {% block content %}
-{% load crispy_forms_filters %} 
+{% load crispy_forms_filters %}
 
-<div class = "container my-4">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="row">
-              <img src="/media/{{room.roomimage}}" alt="">
-            </div>
-            <div class="row">
-                <a href="/Booking/{{room.id}}" class="btn btn-primary my-4">Book Now </a>
-            </div> 
-        </div>
+<head>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<!-- start page title section -->
+<section class="page-title-section bg-img cover-background mb-4 vh-80 " data-overlay-dark="4"
+  data-background="static\hotel_images\08.jpg"
+  style="background-image: url('/static/hotel_images/10c.jpg');background-size: cover; ">
+  <div class="container text-dark">
+    <h1 class=" text-light" style="font-size: 70px;">{{room.RoomType.RoomName}}</h1>
+    <ul>
+      <li>
+        <a href="index.html" class="text-light">Home</a>
+      </li>
+      <span>></span>
+      <li>
+        <a href="#!" class="text-light">Booking</a>
+      </li>
+    </ul>
+  </div>
+</section>
+<!-- end page title section -->
+
+<div class="container my-4">
+  <div class="text-center ">
+    <img src="/media/{{room.roomimage}}" alt="" height=" " width="80%">
+  </div>
+
+<div class="row justify-content-center my-2 mt-5" >
+
+  <div class="col-lg-8">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+        data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+        aria-selected="true">Rom Details</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+          data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+          aria-selected="false">Feedback</button>
+        </li>
+        
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+        tabindex="0">
         <div class="col-md-8">
-            <h5><b>Room:</b> {{room.RoomType.RoomName}}</h5>
-            <p> <b>Description: </b> {{room.RoomType.description}}</p>
-            <p> <b>Room Size:</b>{{room.roomsize}}</p>
-            <p> <b>Amenities: </b><pre style="font-family: 'Times New Roman', Times, serif; text-decoration-style: dotted;">{{room.amenities}}</pre></p>
-            <p> <b>Price: </b> {{room.RoomType.price}}</p>
-        </div>
-    </div>
-</div>
+          <div class="row">
+            <div class="col-6">
+              <h5><b>Room Type : </b>{{room.RoomType.RoomName}}</h5>
+            </div>
+            <div class="col-6">
+              <p> <b>Room Size : </b>{{room.roomsize}}</p>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-6">
+              <p> <b>Price : </b> {{room.RoomType.price}}</p>
+            </div>
+            <div class="col-6">
 
-<div class="container">
-    <div class="row justify-content-center">
-      <div class="col-7">
-        <h1>Feedback:</h1>
-        <hr class="mt-0 mb-4" />
-          <form method="POST" action="">
-            {% csrf_token %} 
-            {{form | crispy }}
-            <button type="submit" class="btn btn-primary">Post Feedback</button>
-          </form>
+              <!-- For number of guests -->
+              <p> <b>Room Size : </b>{{room.roomsize}}</p>
+            </div>
+          </div>
+
+          <p> <b>Description: </b> {{room.RoomType.description}}</p>
+          <p> <b>Amenities: </b>
+            <pre style="font-family: 'Times New Roman', Times, serif; text-decoration-style: dotted;">{{room.amenities}}</pre>
+          </p>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+          tabindex="0">          <div class="row justify-content-center">
+            <div class="col-12">
+              <h1>Feedback:</h1>
+              <hr class="mt-0 mb-4" />
+              <form method="POST" action="">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-6">
+                    {{ form.name|as_crispy_field }}
+                  </div>
+                  <div class="col-6">
+                    {{ form.email|as_crispy_field }}
+                  </div>
+                </div>
+                <div class="row">
+                  {{ form.message|as_crispy_field }}
+                </div>
+                <button type="submit" class="btn butn">Post Feedback</button>
+              </form>
+            </div>
+          </div></div>
+          
+          <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab"
+          tabindex="0">...</div>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
+</div>
+</div>
 {% endblock content %}

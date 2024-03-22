@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 {% load crispy_forms_filters %}
+
+
+<head>
+	<link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
         <!-- start page title section -->
         <section class="page-title-section bg-img cover-background mb-4 vh-80 " data-overlay-dark="4" 
         data-background="static\hotel_images\08.jpg" 
@@ -24,21 +30,23 @@
 
         <section>
           <div class="container">
-              <div class="row">
-                  <div class="col-lg-8 sm-margin-50px-bottom">
+              <div class="row justify-content-center">
+                <div class="col-6">
+                    <h1>Booking : </h1>
+                    <hr class="mt-0 mb-4" />
                         <form method="POST">
                             {% csrf_token %}
-                              <div class="col-6">
+                              <div class="col-12">
                                 {{ form.room|as_crispy_field }}
                               </div>
-                              <div class="col-6">
+                              <div class="col-12">
                                 {{ form.checkin_date|as_crispy_field }}
                               </div>
-                              <div class="col-6">
+                              <div class="col-12">
                                 {{ form.checkout_date|as_crispy_field }}
                               </div>
                         <div class="form-group  text-center my-3">
-                            <button type="submit">confirm booking</button>
+                            <button type="submit" class="butn">confirm booking</button>
                         </div>
                     </form>
                   </div>
@@ -47,32 +55,24 @@
                       <div class="padding-30px-left sm-no-padding-left">
                           <h4 class="text-uppercase letter-spacing-1 margin-30px-bottom font-size24">Special Offers</h4>
                           <div class="theme-shadow border-radius-3 margin-30px-bottom">
-                              <img src="img/content/01.jpg" alt="">
-                              <div class="border-bottom padding-25px-all d-flex justify-content-between">
-                                  <h5 class="font-size17 no-margin-bottom"><a href="single-room.html" class="text-extra-dark-gray"> Standard room</a></h5>
+                            <div>
+                                <img src='/static/hotel_images/10c.jpg' class="ml-1" height="200px" alt="">
+                            </div>
+                              <div class="m-4 padding-25px-all d-flex justify-content-between">
+                                  <h5 class="font-size17 no-margin-bottom"><a href="#" class="text-extra-dark-gray">Suite room</a>
+                                </h5>
+                                <div class="col-6 ml-5"><span class="display-block font-size20 letter-spacing-2 text-extra-dark-gray">₹ 1200.00 </span><span> Per night</span></div>
+                                
                                   <ul class="rate no-margin-bottom">
                                   </ul>
                               </div>
                               <div>
                                   <div class="row align-items-center text-center padding-15px-tb">
-                                      <div class="col-6 border-right"><a href="single-room.html" class="butn small">book now</a></div>
-                                      <div class="col-6"><span class="display-block font-size20 letter-spacing-2 text-extra-dark-gray">1200.00 </span><span> Per night</span></div>
+                                      <div class="col-6 "><a href="single-room.html" class=""></a></div>
                                   </div>
                               </div>
                           </div>
-                          <div class="theme-shadow border-radius-3">
-                              <img src="img/content/02.jpg" alt="">
-                              <div class="border-bottom padding-25px-all d-flex justify-content-between">
-                                  <h5 class="font-size17 no-margin-bottom"><a href="single-room.html" class="text-extra-dark-gray"> Deluxe room</a></h5>
-
-                              </div>
-                              <div>
-                                  <div class="row align-items-center text-center padding-15px-tb">
-                                      <div class="col-6 border-right"><a href="single-room.html" class="butn small">book now</a></div>
-                                      <div class="col-6"><span class="display-block font-size20 letter-spacing-2 text-extra-dark-gray">1500.00 </span><span> Per night</span></div>
-                                  </div>
-                              </div>
-                          </div>
+               
                       </div>
                   </div>
               </div>

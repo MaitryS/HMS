@@ -21,20 +21,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
-from django.db.models import Q
+from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 import datetime
-
-# # Create your views here.
-# def check_availability(request , room , checkin , checkout):
-    # avail_list = []
-    # booking_list = Booking.objects.filter(room = room)
-    # for booking in booking_list:
-    #     if booking.checkin_date >= checkout or booking.checkout_date <= checkin:
-    #         avail_list.append(True)
-    #     else:
-    #         avail_list.append((False))
-    # return all(avail_list)     
 
 
 def check_availability(request):
@@ -52,13 +41,14 @@ def check_availability(request):
                 avail_list.append((False))
 
         if all(avail_list):
-            messages.success(request, f'Room Is available ')
-            return redirect('Home')
+            messages.success(request, f'These Rooms are available for your Request ')
+            return redirect('Room')
         else:
            messages.error(request , f'room is not available')
         return redirect('Home')
     else:
         return render(request, 'index.html', {'error_message': 'Invalid request method.'})
+    
 def Home(request):
     tr=RoomType.objects.all()
     room = Room.objects.all()[:3]
@@ -91,20 +81,15 @@ def register(request):
 
 @unauthenticated_user
 def Login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            if user.is_staff:  
-                return redirect(reverse('/admin/'))
-            else:
-                return redirect('Home') 
-        else:
-            messages.error(request, 'Invalid username or password.')
-
-        messages.success(request, f' Welcome! {username} You have uccesfully logged in.')
-    return render(request, 'login.html')    
+    form =  UserSignUpForm(request.POST)
+    if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Welcome! {username} Your successfully logged in')
+            return redirect('Home')
+    else:
+        form =  UserSignUpForm()
+    return render(request, 'Login.html',{'form': form})
 
 def Contact(request):
     if request.method == 'POST':
@@ -121,13 +106,13 @@ def Contact(request):
 
 def Staff(request):
     if request.method == 'POST':
-        form = SearchForm(request.POST , request.FILES)
+        form = StaffForm(request.POST , request.FILES)
         if form.is_valid():
             form.save()
-            params = {'Data': SearchForm()} 
+            params = {'Data': StaffForm()} 
             return render(request , "staff.html" , params)   
     else:
-        form = SearchForm()
+        form = StaffForm()
     params = {'form': form}
     return render(request, "staff.html", params)
 
@@ -156,19 +141,50 @@ def Roomview(request , myid):
    
 
 @login_required
-def BookingRoom(request ):
+def BookingView(request):
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            instance = form.save(commit = False)
-            instance.user_id = request.user.id 
+            instance = form.save(commit=False)
+            instance.user = request.user
             instance.save()
-            messages.success(request, 'Your Details Submited Sucessfully')
-            return redirect("Booking")
-    
+
+            # Automatically generate bill for the booking
+            total_amount = instance.room.RoomType.price  # Define this function
+            bill = Bill.objects.create(booking=instance, TotalPrice=total_amount)
+
+            messages.success(request, 'Your booking has been confirmed. Bill generated.')
+            
+            # Redirect to generate PDF for the generated bill
+            return redirect('generate_pdf', booking_id=bill.booking.id)
     else:
         form = BookingForm()
 
     params = {'form': form}
     return render(request, "Booking.html", params)
+
+def generate_pdf(request, booking_id):
+    # Fetch the booking object from the database
+    booking = Bill.objects.get(booking__id=booking_id)
+
+    # Render HTML template with context data
+    template_path = 'Bill.html'
+    context = {'bill': booking}
+    html_string = render_to_string(template_path, context)
+
+    # Create a PDF file
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="booking_{booking_id}.pdf"'
+
+    # Generate PDF
+    pisa_status = pisa.CreatePDF(html_string, dest=response)
+    if pisa_status.err:
+        return HttpResponse('Failed to generate PDF: %s' % pisa_status.err)
+    else:
+        return response
+
+def Billing(request, bill_id):
+    bill = Bill.objects.get(id=bill_id)
+    context = {'bill': bill}
+    return render(request, "Bill.html", context)
 
